@@ -21,6 +21,7 @@ gem 'unicorn'
 # gem 'capistrano'
 
 # To use debugger
-group :development do
+group :development, :test do
   gem 'ruby-debug'
+  gem 'rspec-rails'
 end
