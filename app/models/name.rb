@@ -9,6 +9,10 @@ class Name < ActiveRecord::Base
     QuebecTop1000Directory.instance.ranking_data_for_last_name(last_name)
   end
 
+  def stanley_cup_winners
+    StanleyCupWinnersDirectory.instance.stanley_cup_winners_with_last_name(last_name)
+  end
+
   def to_param
     last_name
   end

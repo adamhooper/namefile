@@ -68,13 +68,20 @@ div.data-set-result {
     }
   }
 
-  ul.orders-of-canada {
+  ul.orders-of-canada li {
+    background: image-url('order-of-canada.png') top left no-repeat;
+  }
+
+  ul.stanley-cup-winners li {
+    background: image-url('stanley-cup.png') top left no-repeat;
+  }
+
+  ul.orders-of-canada, ul.stanley-cup-winners {
     margin: 0;
     padding: 0;
 
     li {
       display: inline-block;
-      background: image-url('order-of-canada.png') top left no-repeat;
       padding-left: 50px + 15px;
       height: 112px;
       width: 12em;

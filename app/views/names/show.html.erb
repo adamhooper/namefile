@@ -37,6 +37,28 @@
   </div>
 <% end %>
 
+<% if @name.stanley_cup_winners %>
+  <div class="data-set-result">
+    <div class="description">
+      <% if @name.stanley_cup_winners.length == 1 %>
+        <p>Someone with this name won the Stanley Cup. That's so awesome.</p>
+      <% else %>
+        <p><strong><%= @name.stanley_cup_winners.length %></strong> people with this name won the Stanley Cup. That's incredibly awesome.</p>
+      <% end %>
+      <ul class="stanley-cup-winners">
+        <% @name.stanley_cup_winners.each do |winner| %>
+          <li><span class="name"><%= winner %></li>
+        <% end %>
+      </ul>
+    </div>
+    <div class="points">
+      <% stanley_cup_winners_points = 333 * @name.stanley_cup_winners.length %>
+      <% points += stanley_cup_winners_points %>
+      <span><%= stanley_cup_winners_points %></span> awesome points
+    </div>
+  </div>
+<% end %>
+
 <div class="summary">
   <p>In total, the <%= @name.last_name %> family has an awesome rating of <strong><%= points %></strong></p>
 </div>
