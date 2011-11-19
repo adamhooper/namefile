@@ -1,3 +1,112 @@
-// Place all the styles related to the names controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+$awesome_color: #e46900;
+
+body {
+  font: 100% Helvetica, Arial, sans-serif;
+  background-color: #f3f3f3;
+  margin: 1em;
+}
+
+form#last_name_form {
+  text-align: center;
+  margin: 1em 0;
+  font-size: 2em;
+
+  label {
+    display: block;
+  }
+
+  input#last_name_input {
+    display: block;
+    width: 90%;
+    margin: .3em auto;
+    font-size: 3em;
+    text-align: center;
+  }
+
+  input#last_name_submit {
+    font-size: 1;
+    display: block;
+    font-size: 100%;
+    margin: .3em auto;
+    width: 15em;
+  }
+}
+
+div.data-set-result {
+  clear: both;
+  background-color: white;
+
+  div.description, div.points {
+    border-top: 10px solid black;
+    padding: 5px;
+    background: white;
+    margin-bottom: 25px;
+  }
+
+  div.description {
+    width: 65%;
+    float: left;
+    margin-right: 5px;
+    border-bottom: 10px solid black;
+
+    p {
+      font-size: 130%;
+    }
+  }
+
+  div.points {
+    font-size: 110%;
+    color: white;
+    background-color: $awesome_color;
+    width: 29%;
+    text-align: right;
+    float: left;
+
+    span {
+      display: block;
+      font-size: 250%;
+    }
+  }
+
+  ul.orders-of-canada {
+    margin: 0;
+    padding: 0;
+
+    li {
+      display: inline-block;
+      background: image-url('order-of-canada.png') top left no-repeat;
+      padding-left: 50px + 15px;
+      height: 112px;
+      width: 12em;
+      margin-bottom: 5px;
+
+      span.name {
+        display: block;
+        font-weight: bold;
+      }
+
+      span.city {
+        display: block;
+        font-size: 90%;
+        color: #666;
+      }
+    }
+  }
+}
+
+div.summary {
+  clear: both;
+
+  p {
+    font-size: 2em;
+    text-align: center;
+
+    strong {
+      display: block;
+      font-size: 8em;
+      background: white;
+      color: $awesome_color;
+      text-align: center;
+    }
+  }
+}

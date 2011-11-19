@@ -1,21 +1,42 @@
-<p>
-  <b>Last name:</b>
-  <%= @name.last_name %>
-</p>
+<%= render('prompt') %>
 
-<% if @name.orders_of_canada %>
-  <div class="awards order-of-canada">
-    <% if @name.orders_of_canada.length == 1 %>
-      <p>Someone with this name achieved an Order of Canada. That's awesome.</p>
-    <% else %>
-      <p>People with this name achieved some Orders of Canada. That's super-awesome.</p>
-    <% end %>
-    <ul>
-      <% @name.orders_of_canada.each do |award| %>
-        <li><%= award[:full_name] %> (<%= award[:city] %>)</li>
-      <% end %>
-    </ul>
+<% points = 0 %>
+
+<% if @name.quebec_top1000_ranking %>
+  <div class="data-set-result">
+    <div class="description">
+      <p>This is the <strong>#<%= @name.quebec_top1000_ranking[:rank] %></strong> surname in Quebec. Approximately <%= @name.quebec_top1000_ranking[:approximate_population] %> <%= @name.quebec_top1000_ranking[:last_name]%>s live in Quebec.</p>
+    </div>
+    <div class="points">
+      <% quebec_top1000_points = 1001 - @name.quebec_top1000_ranking[:rank] %>
+      <% points += quebec_top1000_points %>
+      <span><%= quebec_top1000_points %></span> awesome points
+    </div>
   </div>
 <% end %>
 
-<p class="actions"><%= link_to('Enter another name...', root_path) %></p>
+<% if @name.orders_of_canada %>
+  <div class="data-set-result">
+    <div class="description">
+      <% if @name.orders_of_canada.length == 1 %>
+        <p>Someone with this name achieved an Order of Canada. That's awesome.</p>
+      <% else %>
+        <p><strong><%= @name.orders_of_canada.length %></strong> people with this name achieved Orders of Canada. That's super-awesome.</p>
+      <% end %>
+      <ul class="orders-of-canada">
+        <% @name.orders_of_canada.each do |award| %>
+          <li><span class="name"><%= award[:full_name] %></span><span class="city"><%= award[:city] %></span></li>
+        <% end %>
+      </ul>
+    </div>
+    <div class="points">
+      <% orders_of_canada_points = 200 * @name.orders_of_canada.length %>
+      <% points += orders_of_canada_points %>
+      <span><%= orders_of_canada_points %></span> awesome points
+    </div>
+  </div>
+<% end %>
+
+<div class="summary">
+  <p>In total, the <%= @name.last_name %> family has an awesome rating of <strong><%= points %></strong></p>
+</div>
