@@ -90,13 +90,14 @@ class Fetcher
     @records ||= calculate_records
   end
 
-  def write_records_to_csv(csv, flusher = nil)
-    (1..pages).each do |page|
+  def write_records_to_csv(csv, options = {})
+    start_page = options[:start_page] || 1
+    (start_page..pages).each do |page|
       parsed_page(page).records.each do |record|
         puts "Writing #{record.inspect}..."
         csv << [ record[:last_name], record[:full_name], record[:city], record[:award] ]
       end
-      flusher.flush unless flusher.nil?
+      options[:flusher].flush if options[:flusher]
     end
   end
 
@@ -144,8 +145,8 @@ end
 url = 'http://www.gg.ca/honours.aspx?q=&t=12&p=&c=&pg=#{page}&types=12'
 fetcher = Fetcher.new(url, OrderOfCanadaParser)
 fetcher.logger = Logger.new(STDOUT)
-File.open('./order-of-canada.csv', 'w') do |f|
+File.open('./order-of-canada.csv', 'a') do |f|
   CSV::Writer.generate(f) do |csv|
-    fetcher.write_records_to_csv(csv, f)
+    fetcher.write_records_to_csv(csv, :flusher => f, :start_page => 1)
   end
 end
