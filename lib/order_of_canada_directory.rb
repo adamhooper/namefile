@@ -10,7 +10,8 @@ class OrderOfCanadaDirectory
   end
 
   def awards_for_last_name(name)
-    data[name]
+    key = name.downcase
+    data[key]
   end
 
   protected
@@ -20,13 +21,10 @@ class OrderOfCanadaDirectory
 
     CSV.open(filename, 'r') do |row|
       last_name = row[0]
-      name = row[1]
-      city = row[2]
-      award = row[3]
+      key = last_name.downcase
 
-      data[last_name] ||= []
-
-      data[last_name] << { :name => row[1], :city => row[2], :award => row[3] }
+      data[key] ||= []
+      data[key] << { :last_name => row[0], :full_name => row[1], :city => row[2], :award => row[3] }
     end
 
     data

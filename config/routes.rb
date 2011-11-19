@@ -1,5 +1,5 @@
 OpenfileNames::Application.routes.draw do
-  resources :names, :only => [ :index, :show ]
+  match '/names/:last_name', :to => 'names#show'
 
   root :to => 'names#index'
 end

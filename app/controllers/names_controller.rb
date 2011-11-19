@@ -15,7 +15,7 @@ class NamesController < ApplicationController
   end
 
   def show
-    @name = Name.find(params[:id])
+    @name = Name.find_or_create_by_last_name(params[:last_name].downcase)
 
     respond_to do |format|
       format.html # show.html.erb

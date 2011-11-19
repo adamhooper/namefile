@@ -1,10 +1,21 @@
-<p id="notice"><%= notice %></p>
-
 <p>
   <b>Last name:</b>
   <%= @name.last_name %>
 </p>
 
+<% if @name.orders_of_canada %>
+  <div class="awards order-of-canada">
+    <% if @name.orders_of_canada.length == 1 %>
+      <p>Someone with this name achieved an Order of Canada. That's awesome.</p>
+    <% else %>
+      <p>People with this name achieved some Orders of Canada. That's super-awesome.</p>
+    <% end %>
+    <ul>
+      <% @name.orders_of_canada.each do |award| %>
+        <li><%= award[:full_name] %> (<%= award[:city] %>)</li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
 
-<%= link_to 'Edit', edit_name_path(@name) %> |
-<%= link_to 'Back', names_path %>
+<p class="actions"><%= link_to('Enter another name...', root_path) %></p>

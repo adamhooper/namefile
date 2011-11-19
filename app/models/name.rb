@@ -4,4 +4,8 @@ class Name < ActiveRecord::Base
   def orders_of_canada
     OrderOfCanadaDirectory.instance.awards_for_last_name(last_name)
   end
+
+  def to_param
+    last_name
+  end
 end
