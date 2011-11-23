@@ -1,6 +1,6 @@
-<%# variables: "ranking", the return value from Name#quebec_top1000_ranking %>
+<%# variables: "data", the return value from Name#quebec_top1000_ranking %>
 <p>
-  This is the <strong>#<%= ranking[:rank] %></strong> surname in Quebec.
-  About <%= number_with_delimiter(ranking[:approximate_population]) %> <%= ranking[:last_name]%>s live in Quebec.
+  This is the <strong>#<%= data[:rank] %></strong> surname in Quebec.
+  About <%= number_with_delimiter(data[:approximate_population]) %> <%= data[:last_name]%>s live in Quebec.
 </p>
 

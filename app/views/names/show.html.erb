@@ -1,26 +1,9 @@
 <%= render('prompt') %>
 
-<% points = 0 %>
-<% capitalized = @name.last_name %>
-
-<% if @name.quebec_top1000_ranking %>
-  <% quebec_top1000_points = 1001 - @name.quebec_top1000_ranking[:rank] %>
-  <%= render(:partial => 'quebec_top1000_ranking', :layout => 'data_set_result', :locals => { :ranking => @name.quebec_top1000_ranking, :points => quebec_top1000_points}) %>
-  <% points += quebec_top1000_points %>
-<% end %>
-
-<% if @name.orders_of_canada %>
-  <% orders_of_canada_points = 200 * @name.orders_of_canada.length %>
-  <%= render(:partial => 'orders_of_canada', :layout => 'data_set_result', :locals => { :awards => @name.orders_of_canada, :points => orders_of_canada_points}) %>
-  <% points += orders_of_canada_points %>
-<% end %>
-
-<% if @name.stanley_cup_winners %>
-  <% stanley_cup_winners_points = 333 * @name.stanley_cup_winners.length %>
-  <%= render(:partial => 'stanley_cup_winners', :layout => 'data_set_result', :locals => { :winners => @name.stanley_cup_winners, :points => stanley_cup_winners_points}) %>
-  <% points += stanley_cup_winners_points %>
+<% @name.data_set_results.each do |result| %>
+  <%= render(:partial => result[:key].to_s, :layout => 'data_set_result', :locals => result) %>
 <% end %>
 
 <div class="summary">
-  <p>In total, the <%= @name.last_name %> family has an awesome rating of <strong><%= number_with_delimiter(points) %></strong></p>
+  <p>In total, the <%= @name.last_name %> family has an awesome rating of <strong><%= number_with_delimiter(@name.points) %></strong></p>
 </div>

@@ -1,11 +1,11 @@
-<%# variables: "awards", the awards returned from Name#orders_of_canada %>
-<% if awards.length == 1 %>
+<%# variables: "data", the awards returned from Name#orders_of_canada %>
+<% if data.length == 1 %>
   <p>Someone with this last name achieved an Order of Canada.</p>
 <% else %>
-  <p><strong><%= awards.length %></strong> people with this name achieved Orders of Canada.</p>
+  <p><strong><%= data.length %></strong> people with this name achieved Orders of Canada.</p>
 <% end %>
 <ul class="orders-of-canada">
-  <% awards.each do |award| %>
+  <% data.each do |award| %>
     <li><span class="name"><%= award[:full_name] %></span><span class="city"><%= award[:city] %></span></li>
   <% end %>
 </ul>

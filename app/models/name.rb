@@ -13,13 +13,51 @@ class Name < ActiveRecord::Base
 
   def quebec_top1000_ranking
     record = QuebecTop1000.find_record(last_name)
-    record[:rank] = record[:rank].to_i
-    record[:approximate_population] = (record[:percent].to_f / 100 * POPULATION_OF_QUEBEC).round(-3).to_i
-    record
+    if record
+      record[:rank] = record[:rank].to_i
+      record[:approximate_population] = (record[:percent].to_f / 100 * POPULATION_OF_QUEBEC).round(-3).to_i
+      record
+    end
   end
 
   def stanley_cup_winners
     StanleyCupWinners.find_records(last_name)
+  end
+
+  def data_set_results
+    return @data_set_results if @data_set_results
+
+    results = []
+
+    if data = quebec_top1000_ranking
+      results << {
+        :key => :quebec_top1000_ranking,
+        :data => data,
+        :points => 1001 - data[:rank]
+      }
+    end
+
+    if data = orders_of_canada
+      results << {
+        :key => :orders_of_canada,
+        :data => data,
+        :points => data.length * 200
+      }
+    end
+
+    if data = stanley_cup_winners
+      results << {
+        :key => :stanley_cup_winners,
+        :data => data,
+        :points => data.length * 333
+      }
+    end
+
+    @data_set_results = results
+  end
+
+  def points
+    @points ||= data_set_results.inject(0) { |s,v| s += v[:points] }
   end
 
   def to_param
