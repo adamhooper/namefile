@@ -141,12 +141,3 @@ class Fetcher
     logger.info(msg) if logger
   end
 end
-
-url = 'http://www.gg.ca/honours.aspx?q=&t=12&p=&c=&pg=#{page}&types=12'
-fetcher = Fetcher.new(url, OrderOfCanadaParser)
-fetcher.logger = Logger.new(STDOUT)
-File.open('./order-of-canada.csv', 'a') do |f|
-  CSV::Writer.generate(f) do |csv|
-    fetcher.write_records_to_csv(csv, :flusher => f, :start_page => 1)
-  end
-end
