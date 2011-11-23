@@ -1,64 +1,26 @@
 <%= render('prompt') %>
 
 <% points = 0 %>
+<% capitalized = @name.last_name %>
 
 <% if @name.quebec_top1000_ranking %>
-  <div class="data-set-result">
-    <div class="description">
-      <p>This is the <strong>#<%= @name.quebec_top1000_ranking[:rank] %></strong> surname in Quebec. Approximately <%= @name.quebec_top1000_ranking[:approximate_population] %> <%= @name.quebec_top1000_ranking[:last_name]%>s live in Quebec.</p>
-    </div>
-    <div class="points">
-      <% quebec_top1000_points = 1001 - @name.quebec_top1000_ranking[:rank] %>
-      <% points += quebec_top1000_points %>
-      <span><%= quebec_top1000_points %></span> awesome points
-    </div>
-  </div>
+  <% quebec_top1000_points = 1001 - @name.quebec_top1000_ranking[:rank] %>
+  <%= render(:partial => 'quebec_top1000_ranking', :layout => 'data_set_result', :locals => { :ranking => @name.quebec_top1000_ranking, :points => quebec_top1000_points}) %>
+  <% points += quebec_top1000_points %>
 <% end %>
 
 <% if @name.orders_of_canada %>
-  <div class="data-set-result">
-    <div class="description">
-      <% if @name.orders_of_canada.length == 1 %>
-        <p>Someone with this name achieved an Order of Canada. That's awesome.</p>
-      <% else %>
-        <p><strong><%= @name.orders_of_canada.length %></strong> people with this name achieved Orders of Canada. That's super-awesome.</p>
-      <% end %>
-      <ul class="orders-of-canada">
-        <% @name.orders_of_canada.each do |award| %>
-          <li><span class="name"><%= award[:full_name] %></span><span class="city"><%= award[:city] %></span></li>
-        <% end %>
-      </ul>
-    </div>
-    <div class="points">
-      <% orders_of_canada_points = 200 * @name.orders_of_canada.length %>
-      <% points += orders_of_canada_points %>
-      <span><%= orders_of_canada_points %></span> awesome points
-    </div>
-  </div>
+  <% orders_of_canada_points = 200 * @name.orders_of_canada.length %>
+  <%= render(:partial => 'orders_of_canada', :layout => 'data_set_result', :locals => { :awards => @name.orders_of_canada, :points => orders_of_canada_points}) %>
+  <% points += orders_of_canada_points %>
 <% end %>
 
 <% if @name.stanley_cup_winners %>
-  <div class="data-set-result">
-    <div class="description">
-      <% if @name.stanley_cup_winners.length == 1 %>
-        <p>Someone with this name won the Stanley Cup. That's so awesome.</p>
-      <% else %>
-        <p><strong><%= @name.stanley_cup_winners.length %></strong> people with this name won the Stanley Cup. That's incredibly awesome.</p>
-      <% end %>
-      <ul class="stanley-cup-winners">
-        <% @name.stanley_cup_winners.each do |winner| %>
-          <li><span class="name"><%= winner %></li>
-        <% end %>
-      </ul>
-    </div>
-    <div class="points">
-      <% stanley_cup_winners_points = 333 * @name.stanley_cup_winners.length %>
-      <% points += stanley_cup_winners_points %>
-      <span><%= stanley_cup_winners_points %></span> awesome points
-    </div>
-  </div>
+  <% stanley_cup_winners_points = 333 * @name.stanley_cup_winners.length %>
+  <%= render(:partial => 'stanley_cup_winners', :layout => 'data_set_result', :locals => { :winners => @name.stanley_cup_winners, :points => stanley_cup_winners_points}) %>
+  <% points += stanley_cup_winners_points %>
 <% end %>
 
 <div class="summary">
-  <p>In total, the <%= @name.last_name %> family has an awesome rating of <strong><%= points %></strong></p>
+  <p>In total, the <%= @name.last_name %> family has an awesome rating of <strong><%= number_with_delimiter(points) %></strong></p>
 </div>

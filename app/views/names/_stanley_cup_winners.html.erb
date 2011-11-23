@@ -1,0 +1,11 @@
+<%# variables: "winners", returned from Name#stanley_cup_winners %>
+<% if winners.length == 1 %>
+  <p>Someone with this name won the Stanley Cup.</p>
+<% else %>
+  <p><strong><%= winners.length %></strong> people with this name won the Stanley Cup.</p>
+<% end %>
+<ul class="stanley-cup-winners">
+  <% winners.each do |winner| %>
+    <li><span class="name"><%= winner[:full_name] %></li>
+  <% end %>
+</ul>
