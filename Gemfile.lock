@@ -122,6 +122,7 @@ GEM
       ruby-debug-base (~> 0.10.4.0)
     ruby-debug-base (0.10.4)
       linecache (>= 0.3)
+    ruby-prof (0.10.8)
     sass (3.1.10)
     sass-rails (3.1.5)
       actionpack (~> 3.1.0)
@@ -161,6 +162,7 @@ DEPENDENCIES
   rails (= 3.1.2)
   rspec-rails
   ruby-debug
+  ruby-prof
   sass-rails
   sqlite3
   therubyracer

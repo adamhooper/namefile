@@ -69,15 +69,7 @@ div.data-set-result {
     }
   }
 
-  ul.orders-of-canada li {
-    background: image-url('order-of-canada.png') top left no-repeat;
-  }
-
-  ul.stanley-cup-winners li {
-    background: image-url('stanley-cup.png') top left no-repeat;
-  }
-
-  ul.orders-of-canada, ul.stanley-cup-winners {
+  ul.orders-of-canada, ul.stanley-cup-winners, ul.quebec-street-names {
     margin: 0;
     padding: 0;
 
@@ -99,6 +91,18 @@ div.data-set-result {
         color: #666;
       }
     }
+  }
+
+  ul.orders-of-canada li {
+    background: image-url('order-of-canada.png') top left no-repeat;
+  }
+
+  ul.stanley-cup-winners li {
+    background: image-url('stanley-cup.png') top left no-repeat;
+  }
+
+  ul.street-names li {
+    padding-left: 0;
   }
 }
 

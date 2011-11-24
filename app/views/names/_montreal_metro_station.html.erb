@@ -1,0 +1,3 @@
+<%# variables: "data", returned from Name#montreal_metro_station %>
+<p>A Montreal metro station contains the name <strong><%= data[:last_name] %></strong>.</p>
+<p><strong><%= data[:station_name] %></strong> station is on the <%= data[:metro_lines].collect{|l| content_tag(:strong, "#{l[:name]} Line", :style => "background:#{l[:color]};color:white;")}.to_sentence(:last_word_connector => ' and ').html_safe %>.

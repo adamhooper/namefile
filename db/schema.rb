@@ -10,12 +10,21 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111119180657) do
+ActiveRecord::Schema.define(:version => 20111124154416) do
 
   create_table "names", :force => true do |t|
     t.string   "last_name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "quebec_street_names", :force => true do |t|
+    t.string "key"
+    t.string "street_type"
+    t.string "last_name"
+    t.string "city"
+  end
+
+  add_index "quebec_street_names", ["key"], :name => "index_quebec_street_names_on_key"
 
 end

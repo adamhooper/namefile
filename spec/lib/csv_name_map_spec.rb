@@ -29,6 +29,10 @@ describe(CsvNameMap) do
       it('should be case-insensitive') do
         @map.find_record('eLsE').should == @map.find_record('Else')
       end
+
+      it('should ignore accents') do
+        @map.find_record('Hǫöpér').should == @map.find_record('Hooper')
+      end
     end
 
     describe('find_records') do

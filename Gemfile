@@ -19,6 +19,7 @@ gem 'jquery-rails'
 # To use debugger
 group :development, :test do
   gem 'ruby-debug'
+  gem 'ruby-prof'
   gem 'rspec-rails'
   gem 'capistrano'
   gem 'unicorn'
