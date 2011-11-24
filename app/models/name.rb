@@ -98,6 +98,37 @@ class Name < ActiveRecord::Base
     @points ||= data_set_results.inject(0) { |s,v| s += v[:points] }
   end
 
+  def capitalized_last_name
+    return @capitalized_last_name if @capitalized_last_name
+
+    candidates = {}
+    data_set_results.each do |result|
+      if Array === result[:data]
+        result[:data].each do |record|
+          candidates[record[:last_name]] ||= 0
+          candidates[record[:last_name]] += 1
+        end
+      else
+        candidates[result[:last_name]] ||= 0
+        candidates[result[:last_name]] += 1
+      end
+    end
+
+    @capitalized_last_name = if candidates.empty?
+      last_name
+    else
+      best = nil
+      best_count = 0
+      candidates.each do |current, count|
+        if count > best_count
+          best = current
+          best_count = count
+        end
+      end
+      best
+    end
+  end
+
   def to_param
     last_name
   end

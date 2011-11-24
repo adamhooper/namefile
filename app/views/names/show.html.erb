@@ -5,5 +5,5 @@
 <% end %>
 
 <div class="summary">
-  <p>In total, the <%= @name.last_name %> family has an awesome rating of <strong><%= number_with_delimiter(@name.points) %></strong></p>
+  <p>In total, the <%= @name.capitalized_last_name %> family has an awesome rating of <strong><%= number_with_delimiter(@name.points) %></strong></p>
 </div>
