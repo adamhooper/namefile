@@ -18,7 +18,7 @@ class CsvNameMap
   protected
 
   def last_name_to_key(last_name)
-    last_name.strip.downcase
+    last_name.to_s.strip.downcase
   end
 
   def load_records(file, headers)

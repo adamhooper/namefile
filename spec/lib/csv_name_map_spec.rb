@@ -65,4 +65,17 @@ describe(CsvNameMap) do
       @map.find_records('Hooper').should_not(be_nil)
     end
   end
+
+  describe('with an empty last_name value in a CSV') do
+    before(:each) do
+      headers = %w(number last_name full_name number)
+      csv = "3,,Adam,1\n5,Hooper,Peter Hooper,2\n15,Else,Somebody Else,17"
+      csv_file = StringIO.new(csv)
+      @map = CsvNameMap.new(csv_file, headers)
+    end
+
+    it('should find an empty last name') do
+      @map.find_records('').length.should == 1
+    end
+  end
 end
