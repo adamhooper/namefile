@@ -16,14 +16,10 @@ end
 
 gem 'jquery-rails'
 
-# Use unicorn as the web server
-gem 'unicorn'
-
-# Deploy with Capistrano
-# gem 'capistrano'
-
 # To use debugger
 group :development, :test do
   gem 'ruby-debug'
   gem 'rspec-rails'
+  gem 'capistrano'
+  gem 'unicorn'
 end
