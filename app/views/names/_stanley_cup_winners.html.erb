@@ -1,11 +1,11 @@
 <%# variables: "data", returned from Name#stanley_cup_winners %>
 <% if data.length == 1 %>
-  <p>Someone with this name won the Stanley Cup.</p>
+  <p><strong><%= data.first[:last_name] %></strong> appears on the Stanley Cup.</p>
 <% else %>
-  <p><strong><%= data.length %></strong> people with this name won the Stanley Cup.</p>
+  <p><strong><%= data.first[:last_name] %></strong> appears on the Stanley Cup <strong><%= data.length %></strong> times.</p>
 <% end %>
 <ul class="stanley-cup-winners">
-  <% data.each do |winner| %>
-    <li><span class="name"><%= winner[:full_name] %></li>
+  <% data.each do |name| %>
+    <li><span class="name"><%= name[:full_name] %></span><span class="city"><%= name[:team] %> <%= name[:year] %></span></li>
   <% end %>
 </ul>

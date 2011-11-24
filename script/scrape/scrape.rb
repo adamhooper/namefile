@@ -8,7 +8,6 @@ require 'nokogiri'
 
 require 'csv'
 require 'logger'
-require 'uri'
 
 class HTTP
   include HTTParty
@@ -21,7 +20,7 @@ class Parser
     @html = html
   end
 
-  def total_pages
+  def url_list
     raise NotImplementedError.new
   end
 
@@ -36,54 +35,17 @@ class Parser
   end
 end
 
-class OrderOfCanadaParser < Parser
-  def initialize(html)
-    super(html)
-  end
-
-  def records
-    @records ||= doc.css('table#qres tbody tr').collect do |tr|
-      record = {}
-
-      tds = tr.css('td')
-      href = tds[0].css('a')[0].attribute('href').to_s
-      href =~ /\bln=([^&]+)\b/
-
-      record[:last_name] = $1
-      record[:full_name] = tds[0].css('a')[0].content.strip
-      record[:city] = tds[1].content.strip
-      record[:award] = tds[2].content.strip
-
-      record
-    end
-  end
-
-  def total_pages
-    return @total_pages if @total_pages
-
-    text = doc.css('tfoot.pagination th:first')[0].content
-    text.strip =~ /(\d+)-(\d+) \/ (\d+)/
-    records_per_page = $2
-    total_records = $3
-    @total_pages = (total_records.to_f / records_per_page.to_f).ceil
-  end
-end
-
 class Fetcher
   attr_accessor(:logger)
-  attr_reader(:url_template, :parser_class)
+  attr_reader(:index_url, :parser_class)
 
-  def initialize(url_template, parser_class)
-    @url_template = url_template
+  def initialize(index_url, parser_class)
+    @index_url = index_url
     @parser_class = parser_class
   end
 
-  def count
-    @count ||= calculate_count
-  end
-
-  def pages
-    @pages ||= calculate_pages
+  def url_list
+    @url_list ||= calculate_url_list
   end
 
   def records
@@ -91,11 +53,9 @@ class Fetcher
   end
 
   def write_records_to_csv(csv, options = {})
-    start_page = options[:start_page] || 1
-    (start_page..pages).each do |page|
-      parsed_page(page).records.each do |record|
-        puts "Writing #{record.inspect}..."
-        csv << [ record[:last_name], record[:full_name], record[:city], record[:award] ]
+    url_list.each do |url|
+      parsed_page(url).records.each do |record|
+        csv << record
       end
       options[:flusher].flush if options[:flusher]
     end
@@ -103,28 +63,27 @@ class Fetcher
 
   protected
 
-  def html_page(n)
+  def html_page(url)
     @html_pages ||= {}
-    @html_pages[n] ||= calculate_html_page(n)
+    @html_pages[url] ||= calculate_html_page(url)
   end
 
-  def parsed_page(n)
+  def parsed_page(url)
     @parsed_pages ||= {}
-    @parsed_pages[n] ||= parse_page(html_page(n))
+    @parsed_pages[url] ||= parse_page(html_page(url))
   end
 
   def parse_page(html)
     parser_class.new(html)
   end
 
-  def calculate_html_page(n)
-    url = @url_template.gsub('#{page}', n.to_s)
+  def calculate_html_page(url)
     log("Fetching #{url}...")
     HTTP.get(url).body
   end
 
-  def calculate_pages
-    parsed_page(1).total_pages
+  def calculate_url_list
+    parsed_page(index_url).url_list
   end
 
   def calculate_records

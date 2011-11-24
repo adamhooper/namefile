@@ -5,7 +5,7 @@ class Name < ActiveRecord::Base
 
   OrdersOfCanada = CsvNameMap.new("#{File.dirname(__FILE__)}/../../db/order-of-canada.csv", %w(last_name full_name city award))
   QuebecTop1000 = CsvNameMap.new("#{File.dirname(__FILE__)}/../../db/quebec-top1000.csv", %w(rank last_name percent))
-  StanleyCupWinners = CsvNameMap.new("#{File.dirname(__FILE__)}/../../db/stanley-cup-winners.csv", %w(last_name full_name))
+  StanleyCupWinners = CsvNameMap.new("#{File.dirname(__FILE__)}/../../db/stanley-cup-winners.csv", %w(last_name full_name team year))
 
   def orders_of_canada
     OrdersOfCanada.find_records(last_name)

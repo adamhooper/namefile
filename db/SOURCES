@@ -2,3 +2,8 @@
   Data copy/pasted from http://www.stat.gouv.qc.ca/donstat/societe/demographie/noms_famille/noms_famille_1000.htm
   Population: http://www.stat.gouv.qc.ca/regions/lequebec_20/population_20/tpoplog20_an.htm
   All data from 2006 census
+* quebec-roads.csv:
+  Data from http://www.geobase.ca/geobase/en/search.do?produit=nrn&language=en
+  Street lengths calculated from http://qgis.spatialthoughts.com/2010/10/calculating-line-lengths-and-statistics.html
+* stanley-cup-winners.csv:
+  Scraped from http://www.nhl.com/ice/page.htm?id=31103 (see scripts/ for the scraping code)
