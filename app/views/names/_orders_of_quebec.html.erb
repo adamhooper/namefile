@@ -1,0 +1,11 @@
+<%# variables: "data", the awards returned from Name#orders_of_quebec %>
+<% if data.length == 1 %>
+  <p>A <strong><%= data.first[:last_name] %></strong> achieved an Ordre national du Québec.</p>
+<% else %>
+  <p><strong><%= data.length %></strong> <strong><%= data.first[:last_name] %></strong>s achieved Ordres nationals du Québec.</p>
+<% end %>
+<ul class="orders-of-quebec">
+  <% data.each do |award| %>
+    <li class="<%= award[:level].parameterize %>"><span class="name"><%= award[:full_name] %></span><span class="level"><%= award[:level] %>, <%= award[:year] %><%= award[:deceased] ? ' (now deceased)' : '' %></span><span class="region"><%= award[:region] %></span><%= link_to('[details]', award[:url]) %></li>
+  <% end %>
+</ul>

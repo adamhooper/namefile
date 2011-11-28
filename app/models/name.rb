@@ -12,11 +12,26 @@ class Name < ActiveRecord::Base
   OrdersOfCanada = CsvNameMap.new("#{File.dirname(__FILE__)}/../../db/order-of-canada.csv", %w(last_name full_name city award))
   QuebecTop1000 = CsvNameMap.new("#{File.dirname(__FILE__)}/../../db/quebec-top1000.csv", %w(rank last_name percent))
   QuebecStreetNames = CsvNameMap.new("#{File.dirname(__FILE__)}/../../db/quebec-street-names.csv", %w(street_type last_name city))
+  OrdreNationalDuQuebec = CsvNameMap.new("#{File.dirname(__FILE__)}/../../db/ordre-national-du-quebec.csv", %w(last_name full_name level year region deceased url"))
   StanleyCupWinners = CsvNameMap.new("#{File.dirname(__FILE__)}/../../db/stanley-cup-winners.csv", %w(last_name full_name team year))
   MontrealMetroStations = CsvNameMap.new("#{File.dirname(__FILE__)}/../../db/montreal-metro-stations.csv", %w(last_name station_name metro_lines_string))
 
   def orders_of_canada
     OrdersOfCanada.find_records(last_name)
+  end
+
+  def orders_of_quebec
+    records = OrdreNationalDuQuebec.find_records(last_name)
+    if records
+      records.each do |record|
+        record[:year] = record[:year].to_i
+        puts record[:deceased].inspect
+        record[:deceased] = (record[:deceased] == 'true')
+      end
+      records
+    else
+      nil
+    end
   end
 
   def quebec_top1000_ranking
@@ -78,6 +93,14 @@ class Name < ActiveRecord::Base
     if data = orders_of_canada
       results << {
         :key => :orders_of_canada,
+        :data => data,
+        :points => data.length * 200
+      }
+    end
+
+    if data = orders_of_quebec
+      results << {
+        :key => :orders_of_quebec,
         :data => data,
         :points => data.length * 200
       }

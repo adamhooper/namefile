@@ -69,7 +69,7 @@ div.data-set-result {
     }
   }
 
-  ul.orders-of-canada, ul.stanley-cup-winners, ul.quebec-street-names {
+  ul.orders-of-canada, ul.orders-of-quebec, ul.stanley-cup-winners, ul.quebec-street-names {
     margin: 0;
     padding: 0;
 
@@ -85,7 +85,7 @@ div.data-set-result {
         font-weight: bold;
       }
 
-      span.city {
+      span.city, span.region, span.level, a {
         display: block;
         font-size: 90%;
         color: #666;
@@ -95,6 +95,18 @@ div.data-set-result {
 
   ul.orders-of-canada li {
     background: image-url('order-of-canada.png') top left no-repeat;
+  }
+
+  ul.orders-of-quebec {
+    li.grand-officer {
+      background: image-url('ordre-national-du-quebec-grand-officer.png') top left no-repeat;
+    }
+    li.officer {
+      background: image-url('ordre-national-du-quebec-officer.png') top left no-repeat;
+    }
+    li.knight {
+      background: image-url('ordre-national-du-quebec-knight.png') top left no-repeat;
+    }
   }
 
   ul.stanley-cup-winners li {
