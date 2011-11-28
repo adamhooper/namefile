@@ -15,6 +15,7 @@ class Name < ActiveRecord::Base
   OrdreNationalDuQuebec = CsvNameMap.new("#{File.dirname(__FILE__)}/../../db/ordre-national-du-quebec.csv", %w(last_name full_name level year region deceased url"))
   StanleyCupWinners = CsvNameMap.new("#{File.dirname(__FILE__)}/../../db/stanley-cup-winners.csv", %w(last_name full_name team year))
   MontrealMetroStations = CsvNameMap.new("#{File.dirname(__FILE__)}/../../db/montreal-metro-stations.csv", %w(last_name station_name metro_lines_string))
+  Canadiens = CsvNameMap.new("#{File.dirname(__FILE__)}/../../db/canadiens.csv", %w(last_name full_name position team birth_date_string hometown url))
 
   def orders_of_canada
     OrdersOfCanada.find_records(last_name)
@@ -55,6 +56,10 @@ class Name < ActiveRecord::Base
       end
       record
     end
+  end
+
+  def canadiens
+    Canadiens.find_records(last_name)
   end
 
   def stanley_cup_winners
@@ -103,6 +108,14 @@ class Name < ActiveRecord::Base
         :key => :orders_of_quebec,
         :data => data,
         :points => data.length * 200
+      }
+    end
+
+    if data = canadiens
+      results << {
+        :key => :canadiens,
+        :data => data,
+        :points => data.length * 99
       }
     end
 

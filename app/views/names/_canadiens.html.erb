@@ -1,0 +1,11 @@
+<%# variables: "data", returned from Name#canadiens %>
+<% if data.length == 1 %>
+  <p>A <strong><%= data.first[:last_name] %></strong> has played for the Canadiens.</p>
+<% else %>
+  <p><strong><%= data.length %></strong> <%= data.first[:last_name] %>s</strong> have played for the Canadiens.</p>
+<% end %>
+<ul class="canadiens">
+  <% data.each do |player| %>
+    <li><span class="name"><%= player[:full_name] %> (<%= player[:position] %>)</span><span class="city">From <%= player[:hometown] %>, born in <%= player[:birth_date_string].split.last %></span><span class="team"><% if !player[:team].empty? %>Currently playing for <%= player[:team] %></span><% end %><%= link_to('[details]', player[:url]) %></li>
+  <% end %>
+</ul>

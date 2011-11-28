@@ -69,7 +69,7 @@ div.data-set-result {
     }
   }
 
-  ul.orders-of-canada, ul.orders-of-quebec, ul.stanley-cup-winners, ul.quebec-street-names {
+  ul.orders-of-canada, ul.orders-of-quebec, ul.stanley-cup-winners, ul.quebec-street-names, ul.canadiens {
     margin: 0;
     padding: 0;
 
@@ -77,15 +77,17 @@ div.data-set-result {
       display: inline-block;
       padding-left: 50px + 15px;
       height: 112px;
-      width: 12em;
+      width: 15em;
       margin-bottom: 5px;
+      background-position: top left;
+      background-repeat: no-repeat;
 
       span.name {
         display: block;
         font-weight: bold;
       }
 
-      span.city, span.region, span.level, a {
+      span.city, span.region, span.level, span.team, a {
         display: block;
         font-size: 90%;
         color: #666;
@@ -94,23 +96,27 @@ div.data-set-result {
   }
 
   ul.orders-of-canada li {
-    background: image-url('order-of-canada.png') top left no-repeat;
+    background-image: image-url('order-of-canada.png');
   }
 
   ul.orders-of-quebec {
     li.grand-officer {
-      background: image-url('ordre-national-du-quebec-grand-officer.png') top left no-repeat;
+      background-image: image-url('ordre-national-du-quebec-grand-officer.png');
     }
     li.officer {
-      background: image-url('ordre-national-du-quebec-officer.png') top left no-repeat;
+      background-image: image-url('ordre-national-du-quebec-officer.png');
     }
     li.knight {
-      background: image-url('ordre-national-du-quebec-knight.png') top left no-repeat;
+      background-image: image-url('ordre-national-du-quebec-knight.png');
     }
   }
 
+  ul.canadiens li {
+    background-image: image-url('canadiens.png');
+  }
+
   ul.stanley-cup-winners li {
-    background: image-url('stanley-cup.png') top left no-repeat;
+    background-image: image-url('stanley-cup.png');
   }
 
   ul.street-names li {
