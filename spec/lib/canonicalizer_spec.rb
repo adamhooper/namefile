@@ -28,6 +28,7 @@ describe(Canonicalizer) do
       Canonicalizer.canonicalize('de la Hooper').should == 'hooper'
       Canonicalizer.canonicalize('la Hooper').should == 'hooper'
       Canonicalizer.canonicalize("d'Ooper").should == 'ooper'
+      Canonicalizer.canonicalize("de l' Onyx").should == 'onyx'
     end
   end
 end
