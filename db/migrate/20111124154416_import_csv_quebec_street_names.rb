@@ -27,7 +27,7 @@ class ImportCsvQuebecStreetNames < ActiveRecord::Migration
   protected
 
   def quote(s)
-    quoted = s.gsub("'", "\\'")
+    quoted = s.gsub(/'/, "''")
     "'#{quoted}'"
   end
 end

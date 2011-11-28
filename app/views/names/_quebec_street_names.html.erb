@@ -6,6 +6,6 @@
 <% end %>
 <ul class="quebec-street-names">
   <% data.each do |street| %>
-    <li><span class="name"><%= street[:street_type] %> <%= street[:last_name] %></span><span class="city"><%= street[:city] %></span></li>
+    <li><span class="name"><%= street[:street_type] %> <%= street[:last_name] %></span><span class="city"><%= street[:city] %></span><%= link_to('[view in Google Maps]', 'http://maps.google.com/maps?' + {:q => "#{street[:street_type]} #{street[:last_name]}, #{street[:city]}, QC, Canada"}.to_query) %></li>
   <% end %>
 </ul>
