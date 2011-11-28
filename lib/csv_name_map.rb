@@ -22,7 +22,8 @@ class CsvNameMap
     key = last_name_to_key(last_name)
 
     if in_database?
-      model.where(:key => key).all
+      records = model.where(:key => key).all
+      records.length > 0 ? records : nil
     else
       @records[key]
     end
