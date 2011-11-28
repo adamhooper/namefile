@@ -3,6 +3,9 @@ GEM
   specs:
     activesupport (3.1.2)
       multi_json (~> 1.0)
+    dbf (1.6.7)
+      fastercsv (~> 1.5.4)
+    fastercsv (1.5.4)
     httparty (0.8.1)
       multi_json
       multi_xml
@@ -15,5 +18,6 @@ PLATFORMS
 
 DEPENDENCIES
   activesupport
+  dbf
   httparty
   nokogiri

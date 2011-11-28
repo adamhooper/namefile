@@ -23,4 +23,11 @@ class ImportCsvQuebecStreetNames < ActiveRecord::Migration
   def down
     drop_table(:quebec_street_names)
   end
+
+  protected
+
+  def quote(s)
+    quoted = s.gsub("'", "\\'")
+    "'#{quoted}'"
+  end
 end
