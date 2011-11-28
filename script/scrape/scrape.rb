@@ -11,6 +11,7 @@ require 'logger'
 
 class HTTP
   include HTTParty
+  default_timeout 60
 end
 
 class Parser
@@ -78,8 +79,7 @@ class Fetcher
   end
 
   def calculate_html_page(url)
-    log("Fetching #{url}...")
-    HTTP.get(url).body
+    get(url, :retries => 3).body
   end
 
   def calculate_url_list
@@ -94,6 +94,18 @@ class Fetcher
       ret.concat(records)
     end
     ret
+  end
+
+  def get(url, options = {})
+    log("Fetching #{url}... (#{options[:retries]} retries left if this one fails)")
+    HTTP.get(url)
+  rescue
+    if options[:retries] && options[:retries] > 0
+      sleep 5
+      get(url, :retries => options[:retries] - 1)
+    else
+      raise
+    end
   end
 
   def log(msg)
