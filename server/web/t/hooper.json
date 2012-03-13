@@ -1,0 +1,11 @@
+{
+  "last_name": "Hooper",
+  "quebec-streets": {
+    "list": [
+      { "street_type": "Rue", "name": "Hooper", "city": "Montreal", "url": "http://example.com" }
+    ]
+  },
+  "total": {
+    "value": 3000
+  }
+}
