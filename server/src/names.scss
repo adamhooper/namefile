@@ -1,0 +1,194 @@
+$page_width: 650px;
+$tally_width: 200px;
+$beside_tally_width: $page_width - $tally_width;
+$highlight: #e0186c;
+$faded: #ddd;
+$inline_block_width: $page_width / 2;
+
+#name-awesomeness-detector {
+  width: $page_width;
+  font-size: 16px;
+
+  a {
+    text-decoration: none;
+    color: $highlight;
+  }
+
+  form {
+    label {
+      font: bold 20px 'Open Sans', sans-serif;
+      display: block;
+      text-align: center;
+      line-height: 1em;
+      white-space: nowrap;
+      text-transform: uppercase;
+    }
+
+    input.name {
+      display: block;
+      border: 1px solid black;
+      padding: 4px;
+      font: bold 40px 'Open Sans', sans-serif;
+      text-transform: uppercase;
+      text-align: center;
+      width: $page_width - 10px;
+      margin: 10px 0;
+
+      &::-webkit-input-placeholder {
+        color: $faded;
+      }
+      &:-moz-placeholder {
+        color: $faded;
+      }
+      &:-ms-input-placeholder {
+        color: $faded;
+      }
+    }
+
+    input.submit {
+      display: block;
+      font: bold 22px 'Open Sans', sans-serif;
+      text-transform: uppercase;
+      width: 35%;
+      white-space: nowrap;
+      margin: 0 auto;
+      background: black;
+      color: white;
+      padding: 0 20px;
+      border: 1px solid black;
+      cursor: pointer;
+    }
+  }
+
+  div.result {
+    position: relative;
+    padding-top: 10px;
+    margin-top: 20px;
+    border-top: 5px solid $faded;
+
+    div.points {
+      position: absolute;
+      right: 0;
+      top: -20px;
+      width: $tally_width - 20px;
+      padding: 10px;
+      height: 65px;
+      background: $highlight;
+      color: white;
+      font-family: 'Open Sans', sans-serif;
+      font-weight: bold;
+      overflow: hidden;
+      text-align: right;
+      line-height: 15px;
+      font-size: 15px;
+      text-transform: uppercase;
+
+      span {
+        display: block;
+        line-height: 50px;
+        font-size: 50px;
+      }
+    }
+
+    ul.block {
+      display: block;
+      margin: 0;
+      padding: 0;
+
+      li {
+        display: inline-block;
+        width: $inline_block_width;
+        padding: 10px 0;
+
+        strong.full_name {
+          display: block;
+        }
+      }
+    }
+
+    ul.inline {
+      display: inline;
+      margin: 0;
+      padding: 0;
+
+      li {
+        display: inline;
+        margin: 0;
+        padding: 0;
+
+        strong.Blue {
+          color: #1082ce;
+        }
+        strong.Green {
+          color: #00a650;
+        }
+        strong.Orange {
+          color: #f47216;
+        }
+        strong.Yellow {
+          color: #fcd205;
+        }
+      }
+    }
+
+    p, div.p, h3 {
+      display: block;
+      clear: both;
+      font-family: 'Open Sans', sans-serif;
+      font-weight: normal;
+      margin: 10px 0 20px;
+      padding: 0;
+    }
+
+    h3 {
+      width: $beside_tally_width;
+      font-size: 1em;
+      text-transform: uppercase;
+    }
+  }
+
+  div.total h3 {
+    font: bold 20px 'Open Sans', sans-serif;
+    text-transform: uppercase;
+    text-align: center;
+
+    strong.last_name {
+      font-weight: normal;
+    }
+
+    strong.points {
+      display: block;
+      border: 1px solid black;
+      margin: 5px 0;
+      padding: 10px 0;
+      font: bold 80px 'Open Sans', sans-serif;
+      color: $highlight;
+    }
+  }
+
+  div.orders-of-canada ul.block li {
+    background: url(icons/order-of-canada.png) no-repeat 0 50%;
+    padding-left: 38px;
+    width: $inline_block_width - 38px;
+    padding-left: 38px;
+    min-height: 60px;
+  }
+
+  div.stanley-cup-winners ul.block li {
+    background: url(icons/stanley-cup.png) no-repeat 0 50%;
+    width: $inline_block_width - 40px;
+    padding-left: 40px;
+    min-height: 60px;
+  }
+
+  div.quebec-streets ul.block li {
+    background: url(icons/street.png) no-repeat 0 50%;
+    width: $inline_block_width - 70px;
+    padding-left: 70px;
+    min-height: 60px;
+
+    strong, a {
+      display: block;
+    }
+  }
+}

@@ -2,6 +2,7 @@
 <html>
   <head>
     <title>OpenFile Name Awesomeness Detector</title>
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,700,800" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="names.css"/>
   </head>
   <body>
@@ -10,9 +11,9 @@
         <div>
           <label>
             Enter your last name
-            <input type="text" name="name" value="" placeholder="Your last name" />
+            <input class="name" type="text" name="name" value="" placeholder="Your last name" />
           </label>
-          <input type="submit" value="How awesome?" />
+          <input class="submit" type="submit" value="How awesome?" />
         </div>
       </form>
 
@@ -21,50 +22,50 @@
           <h3>Calculating awesomeness...</h3>
         </div>
 
-        <div class="quebec-top1000">
+        <div class="result quebec-top1000">
           <h3>This is the #<strong class="rank"></strong> surname in Quebec.</h3>
-          <p>There are roughly <strong class="approximate_population"><strong> Quebeckers of the <strong class="last_name"></strong> family.</p>
+          <p>There are roughly <strong class="approximate_population"></strong> Quebeckers of the <strong class="last_name"></strong> family.</p>
         </div>
 
-        <div class="stanley-cup-winners">
+        <div class="result stanley-cup-winners">
           <h3 class="one"><strong class="last_name"></strong> appears on the Stanley Cup.</h3>
           <h3 class="many"><strong class="last_name"></strong> appears on the Stanley Cup <strong class="count"></strong> times.</h3>
-          <ul>
-            <li><span class="name"></span><span class="city"></span><span class="year"></span></li>
+          <ul class="block">
+            <li><strong class="full_name"></strong><span class="team"></span>, <span class="year"></span></li>
           </ul>
         </div>
 
-        <div class="montreal-metro-station">
+        <div class="result montreal-metro-stations">
           <h3>A Montreal metro station contains the name <strong class="last_name"></strong>.</h3>
-          <div class="p"><strong class="station_name"></strong> station is on the <ul><li><strong class="class-line line"></strong><span class="separator"></span></li></ul> <span class="one">line</span><span class="many">lines</span>.</div>
+          <div class="p"><strong class="station_name"></strong> station is on the <ul class="inline"><li><strong class="class-line line"></strong><span class="separator"></span></li></ul> <span class="one">line</span><span class="many">lines</span>.</div>
         </div>
 
-        <div class="orders-of-canada">
+        <div class="result orders-of-canada">
           <h3 class="one">Someone named <strong class="last_name"></strong> achieved an Order of Canada.</h3>
           <h3 class="many"><strong class="count"></strong> people named <strong class="last_name"></strong> achieved Orders of Canada.</h3>
-          <ul>
-            <li><span class="name"></span><span class="city"></span></li>
+          <ul class="block">
+            <li><strong class="full_name"></strong><span class="city"></span></li>
           </ul>
         </div>
 
-        <div class="orders-of-quebec">
+        <div class="result orders-of-quebec">
           <h3 class="one">Someone named <strong class="last_name"></strong> achieved an Ordre national du Québec.</h3>
           <h3 class="many"><strong class="count"></strong> people named <strong class="last_name"></strong> achieved Ordres nationals du Québec.</h3>
-          <ul>
-            <li class="class-level"><span class="name"></span><span class="level"></span>, <span class="year"></span><span class="deceased"></span><span class="region"></span><a class="url">details</a></li>
+          <ul class="block">
+            <li class="class-level"><strong class="full_name"></strong><span class="level"></span>, <span class="year"></span><span class="deceased"></span><span class="region"></span><a class="href-url">details</a></li>
           </ul>
         </div>
 
-        <div class="quebec-streets">
+        <div class="result quebec-streets">
           <h3 class="one">There's a Quebec street named after <strong class="last_name"></strong>.</h3>
           <h3 class="many">There are <strong class="count"></strong> Quebec streets named after <strong class="last_name"></strong>.</h3>
-          <ul>
-            <li><span class="street_type"></span> <span class="name"></span><span class="city"></span><span class="url"></span></li>
+          <ul class="block">
+            <li><strong class="street_name"></strong><span class="km"></span>km in <span class="city"></span><a class="href-url">show on map</a></li>
           </ul>
         </div>
 
         <div class="total">
-          <h3>In total, the <strong class="last_name"></strong> family has an awesome rating of <strong class="value"></strong></h3>
+          <h3>In total, the <strong class="last_name"></strong> family has an awesome rating of <strong class="points"></strong></h3>
         </div>
 
         <div class="not-found">

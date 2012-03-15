@@ -1,0 +1,133 @@
+#name-awesomeness-detector {
+  width: 650px;
+  font-size: 16px; }
+  #name-awesomeness-detector a {
+    text-decoration: none;
+    color: #e0186c; }
+  #name-awesomeness-detector form label {
+    font: bold 20px 'Open Sans', sans-serif;
+    display: block;
+    text-align: center;
+    line-height: 1em;
+    white-space: nowrap;
+    text-transform: uppercase; }
+  #name-awesomeness-detector form input.name {
+    display: block;
+    border: 1px solid black;
+    padding: 4px;
+    font: bold 40px 'Open Sans', sans-serif;
+    text-transform: uppercase;
+    text-align: center;
+    width: 640px;
+    margin: 10px 0; }
+    #name-awesomeness-detector form input.name::-webkit-input-placeholder {
+      color: #dddddd; }
+    #name-awesomeness-detector form input.name:-moz-placeholder {
+      color: #dddddd; }
+    #name-awesomeness-detector form input.name:-ms-input-placeholder {
+      color: #dddddd; }
+  #name-awesomeness-detector form input.submit {
+    display: block;
+    font: bold 22px 'Open Sans', sans-serif;
+    text-transform: uppercase;
+    width: 35%;
+    white-space: nowrap;
+    margin: 0 auto;
+    background: black;
+    color: white;
+    padding: 0 20px;
+    border: 1px solid black;
+    cursor: pointer; }
+  #name-awesomeness-detector div.result {
+    position: relative;
+    padding-top: 10px;
+    margin-top: 20px;
+    border-top: 5px solid #dddddd; }
+    #name-awesomeness-detector div.result div.points {
+      position: absolute;
+      right: 0;
+      top: -20px;
+      width: 180px;
+      padding: 10px;
+      height: 65px;
+      background: #e0186c;
+      color: white;
+      font-family: 'Open Sans', sans-serif;
+      font-weight: bold;
+      overflow: hidden;
+      text-align: right;
+      line-height: 15px;
+      font-size: 15px;
+      text-transform: uppercase; }
+      #name-awesomeness-detector div.result div.points span {
+        display: block;
+        line-height: 50px;
+        font-size: 50px; }
+    #name-awesomeness-detector div.result ul.block {
+      display: block;
+      margin: 0;
+      padding: 0; }
+      #name-awesomeness-detector div.result ul.block li {
+        display: inline-block;
+        width: 325px;
+        padding: 10px 0; }
+        #name-awesomeness-detector div.result ul.block li strong.full_name {
+          display: block; }
+    #name-awesomeness-detector div.result ul.inline {
+      display: inline;
+      margin: 0;
+      padding: 0; }
+      #name-awesomeness-detector div.result ul.inline li {
+        display: inline;
+        margin: 0;
+        padding: 0; }
+        #name-awesomeness-detector div.result ul.inline li strong.Blue {
+          color: #1082ce; }
+        #name-awesomeness-detector div.result ul.inline li strong.Green {
+          color: #00a650; }
+        #name-awesomeness-detector div.result ul.inline li strong.Orange {
+          color: #f47216; }
+        #name-awesomeness-detector div.result ul.inline li strong.Yellow {
+          color: #fcd205; }
+    #name-awesomeness-detector div.result p, #name-awesomeness-detector div.result div.p, #name-awesomeness-detector div.result h3 {
+      display: block;
+      clear: both;
+      font-family: 'Open Sans', sans-serif;
+      font-weight: normal;
+      margin: 10px 0 20px;
+      padding: 0; }
+    #name-awesomeness-detector div.result h3 {
+      width: 450px;
+      font-size: 1em;
+      text-transform: uppercase; }
+  #name-awesomeness-detector div.total h3 {
+    font: bold 20px 'Open Sans', sans-serif;
+    text-transform: uppercase;
+    text-align: center; }
+    #name-awesomeness-detector div.total h3 strong.last_name {
+      font-weight: normal; }
+    #name-awesomeness-detector div.total h3 strong.points {
+      display: block;
+      border: 1px solid black;
+      margin: 5px 0;
+      padding: 10px 0;
+      font: bold 80px 'Open Sans', sans-serif;
+      color: #e0186c; }
+  #name-awesomeness-detector div.orders-of-canada ul.block li {
+    background: url(icons/order-of-canada.png) no-repeat 0 50%;
+    padding-left: 38px;
+    width: 287px;
+    padding-left: 38px;
+    min-height: 60px; }
+  #name-awesomeness-detector div.stanley-cup-winners ul.block li {
+    background: url(icons/stanley-cup.png) no-repeat 0 50%;
+    width: 285px;
+    padding-left: 40px;
+    min-height: 60px; }
+  #name-awesomeness-detector div.quebec-streets ul.block li {
+    background: url(icons/street.png) no-repeat 0 50%;
+    width: 255px;
+    padding-left: 70px;
+    min-height: 60px; }
+    #name-awesomeness-detector div.quebec-streets ul.block li strong, #name-awesomeness-detector div.quebec-streets ul.block li a {
+      display: block; }
