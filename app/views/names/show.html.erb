@@ -1,9 +1,0 @@
-<%= render('prompt') %>
-
-<% @name.data_set_results.each do |result| %>
-  <%= render(:partial => result[:key].to_s, :layout => 'data_set_result', :locals => result) %>
-<% end %>
-
-<div class="summary">
-  <p>In total, the <%= @name.capitalized_last_name %> family has an awesome rating of <strong><%= number_with_delimiter(@name.points) %></strong></p>
-</div>
