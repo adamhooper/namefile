@@ -1,5 +1,18 @@
 #!/usr/bin/env python3
 
+# Generates an SQL database mapping names to JSON entries.
+#
+# This database is used in server/backend/wsgi_server.py
+#
+# The procedure is:
+# 1. Load files from db/*.csv (metadata is in this code)
+# 2. For each line, normalize the name (remove accents, etc). Keep a global
+#    mapping from name to CSV data.
+# 3. For each name, save that mapping's data as JSON and write to the database
+#
+# Run "script/build_json_db.py out.sqlite3" to see it work. It takes about
+# 20 seconds (mostly on street names) and explains what it's doing via STDOUT.
+
 import csv
 import json
 import re

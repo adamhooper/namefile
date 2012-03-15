@@ -1,0 +1,7 @@
+This is essentially a file server, backed by an SQL database.
+
+1. The user requests /names/montreal/hooper.json
+2. The server looks up "hooper" in the "names" table and returns the result,
+   with Content-Type: application/json
+
+The hard part of this program is generating the entry.

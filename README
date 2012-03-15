@@ -7,3 +7,4 @@
 * script/export_db.sh: exports the database into a web-server SQLite3 database
 * server/web/: files for web server: index.html, names.js, names.php
 * server/src/: files used to generate what's in server/web/
+* server/backend/: server that responds to JSON requests
