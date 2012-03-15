@@ -3,7 +3,27 @@
   Population: http://www.stat.gouv.qc.ca/regions/lequebec_20/population_20/tpoplog20_an.htm
   All data from 2006 census
 * quebec-roads.csv:
-  Data from http://www.geobase.ca/geobase/en/search.do?produit=nrn&language=en
-  Street lengths calculated from http://qgis.spatialthoughts.com/2010/10/calculating-line-lengths-and-statistics.html
+  Data from 2011 Census
+  Imported into PostGIS database, distances calculated:
+  $ shp2pgsql -gr4269 -WLATIN1 ~/Desktop/roads/grnf000r11a_e.shp | psql dbname
+  $ psql openroad
+  # DELETE FROM grnf000r11a_e WHERE pruid_l <> '24'; -- (should have added: OR pruid_r <> '24')
+  # ALTER TABLE grnf000r11a_e ADD geog GEOGRAPHY, metres INT;
+  # UPDATE grnf000r11a_e SET geog = ST_Transform(ST_SetSRID(r4269, 4269), 4326);
+  # UPDATE grnf000r11a_e SET metres = ST_Length(geog);
+  # \a \t -- (setting up CSV output)
+  # \f ,
+  # \o /tmp/quebec_roads.csv
+  # SELECT
+      name AS name,
+      CONCAT(INITCAP(CASE COALESCE(type, '') WHEN 'N/A' THEN '' WHEN '' THEN '' ELSE CONCAT(TRIM(type), ' ') END), name, CASE COALESCE(dir, '') WHEN '' THEN '' ELSE CONCAT(' ', TRIM(dir)) END) AS description,
+      CASE WHEN csdname_l = csdname_r THEN csdname_l ELSE CONCAT(csdname_l, chr(8211), csdname_r) END AS city,
+      SUM(metres)::float / 1000 AS km
+    FROM grnf000r11a_e
+    WHERE name IS NOT NULL
+      AND LENGTH(name) > 2
+      AND name <> ''
+      AND name NOT SIMILAR TO '[0-9]%'
+    GROUP BY name, type, dir, csdname_l, csdname_r;
 * stanley-cup-winners.csv:
   Scraped from http://www.nhl.com/ice/page.htm?id=31103 (see scripts/ for the scraping code)
