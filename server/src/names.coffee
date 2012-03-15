@@ -94,55 +94,89 @@ normalizeName = (name) ->
   name = name.replace(/\s\s+/g, ' ')
   name = name.trim()
 
-#URL = 'file:///home/adam/src/openfile-names/server/t'
-URL = '/t'
+URL = 'http://namefile.adamhooper.com/names/montreal'
 
 buildUrlFromName = (name) ->
   normalizedName = normalizeName(name)
   return undefined unless name
   "#{URL}/#{normalizedName}.json"
 
-createDivFromTemplateAndData = (templateDiv, data) ->
+fillTemplate = ($elem, vars, options={}) ->
+  for k, v of vars
+    $elem.find(".#{k}").text(v)
+
+    for attr in [ 'class', 'href' ]
+      htmlClass = "#{attr}-#{k}"
+      $applicableElems = $elem.find(".#{htmlClass}")
+      if options.skip_ul
+        $applicableElems = $applicableElems.filter () -> $applicableElems.closest('ul').count == 0
+      $applicableElems.attr(attr, v)
+      $applicableElems.removeClass(htmlClass)
+
+createDivFromTemplateAndData = (templateDiv, lastName, entry, points) ->
   $ret = $(templateDiv).clone()
-  if data.list? && data.list.length == 1
-    $ret.find('.many').remove()
-  else
-    $ret.find('.one').remove()
 
-  if data.list?
-    data.count = data.list.length
+  fillTemplate($ret, { last_name: lastName})
 
-  for k, v of data
-    $ret.find(".#{k}").text(v) unless k == 'list'
+  if $.isArray(entry)
+    count = entry.length
 
-  if data.list?
+    fillTemplate($ret, { count: count })
+
+    $ret.find(".#{count == 1 && 'many' || 'one'}").remove()
+
     $ul = $ret.find('ul')
 
-    if data.list.length
+    if count
+      $nonUl = $ret.children(':not(ul)')
+      fillTemplate($nonUl, entry[0], { skip_ul: true })
+
       $templateLi = $ul.find('li')
       $templateLi.remove()
-      for item in data.list
+      for item in entry
         $li = $templateLi.clone()
-        for k, v of item
-          $li.find(".#{k}").text(v)
+        fillTemplate($li, item)
         $ul.append($li)
     else
       $ul.remove()
+  else
+    fillTemplate($ret, entry)
+
+  $points = $('<div class="points"><span></span> awesome points</div>')
+  $points.find('span').text("#{points}")
+  $ret.append($points)
 
   $ret[0]
+
+preprocessData = (data) ->
+  if data['quebec-streets']?
+    for item in data['quebec-streets']
+      name = item['street_name']
+      city = item['city']
+      params = { q: "#{name}, #{city}, QC, Canada" }
+      item['url'] = "http://maps.google.com/maps?#{$.param(params)}"
+
+calculatePoints = (templateName, data) ->
+  1000
 
 $.fn.makeNameAwesomenessDetector = () ->
   $outer = $(this)
   $form = $outer.find('form')
   templates = {}
   templateKeys = [] # in order
-  $loadingTemplate = $('div.templates>div.loading').remove()
-  $notFoundTemplate = $('div.templates>div.not-found').remove()
 
-  $outer.find('div.templates>div').each () ->
-    templateName = this.className
+  $templates = $('div.templates')
+
+  $loadingTemplate = $templates.children('div.loading')
+  $notFoundTemplate = $templates.children('div.not-found')
+  $totalTemplate = $templates.children('div.total')
+
+  $templates.children('div.result').each () ->
+    templateName = this.className.substring('result '.length)
     templates[templateName] = this
     templateKeys.push(templateName)
+
+  $templates.remove()
 
   previousRequest = undefined
 
@@ -169,13 +203,23 @@ $.fn.makeNameAwesomenessDetector = () ->
 
     previousRequest = $.ajax({ url: url, dataType: 'json', data: {}, success: (data) ->
       $output.empty()
+      preprocessData(data)
+      points = 0
 
       for templateName in templateKeys
         if data[templateName]?
+          templateData = data[templateName]
+          templatePoints = calculatePoints(templateName, data[templateName])
           templateDiv = templates[templateName]
-          templateData = $.extend({ last_name: data.last_name }, data[templateName])
-          dataDiv = createDivFromTemplateAndData(templateDiv, templateData)
+          dataDiv = createDivFromTemplateAndData(templateDiv, data.last_name, templateData, templatePoints)
           $output.append(dataDiv)
+
+          points += templatePoints
+
+      $total = $totalTemplate.clone()
+      fillTemplate($total, { last_name: data.last_name, points: points })
+      $output.append($total)
+
     , error: (xhr, textStatus, errorThrown) ->
       if xhr.status == 404
         $output.empty()

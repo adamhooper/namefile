@@ -1,7 +1,7 @@
 (function() {
-  var URL, buildUrlFromName, createDivFromTemplateAndData, normalizeName, removeDiacraticsMap;
+  var URL, buildUrlFromName, calculatePoints, createDivFromTemplateAndData, fillTemplate, normalizeName, preprocessData, removeDiacriticsMap;
 
-  removeDiacraticsMap = {
+  removeDiacriticsMap = {
     A: /[\u0041\u24B6\uFF21\u00C0\u00C1\u00C2\u1EA6\u1EA4\u1EAA\u1EA8\u00C3\u0100\u0102\u1EB0\u1EAE\u1EB4\u1EB2\u0226\u01E0\u00C4\u01DE\u1EA2\u00C5\u01FA\u01CD\u0200\u0202\u1EA0\u1EAC\u1EB6\u1E00\u0104\u023A\u2C6F]/g,
     AA: /[\uA732]/g,
     AE: /[\u00C6\u01FC\u01E2]/g,
@@ -90,18 +90,18 @@
 
   normalizeName = function(name) {
     var letter, variants;
-    for (letter in removeDiacraticsMap) {
-      variants = removeDiacraticsMap[letter];
+    for (letter in removeDiacriticsMap) {
+      variants = removeDiacriticsMap[letter];
       name = name.replace(variants, letter);
     }
-    name = name.trim().toLowerCase();
-    name = name.replace(/\s+/g, ' ');
-    name = name.replace(/[^\x00-\x7F]/g, '');
+    name = name.toLowerCase();
     name = name.replace(/[^-'a-z ]/g, '');
-    return name = name.replace(/^(de +|des +|la +|du +|l' *|d' *)*/ig, '');
+    name = name.replace(/\b(a|de|des|la|du|l'|d')\b/g, '');
+    name = name.replace(/\s\s+/g, ' ');
+    return name = name.trim();
   };
 
-  URL = '/t';
+  URL = 'http://namefile.adamhooper.com/names/montreal';
 
   buildUrlFromName = function(name) {
     var normalizedName;
@@ -110,55 +110,112 @@
     return "" + URL + "/" + normalizedName + ".json";
   };
 
-  createDivFromTemplateAndData = function(templateDiv, data) {
-    var $li, $ret, $templateLi, $ul, item, k, v, _i, _len, _ref;
+  fillTemplate = function($elem, vars, options) {
+    var $applicableElems, attr, htmlClass, k, v, _results;
+    if (options == null) options = {};
+    _results = [];
+    for (k in vars) {
+      v = vars[k];
+      $elem.find("." + k).text(v);
+      _results.push((function() {
+        var _i, _len, _ref, _results2;
+        _ref = ['class', 'href'];
+        _results2 = [];
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          attr = _ref[_i];
+          htmlClass = "" + attr + "-" + k;
+          $applicableElems = $elem.find("." + htmlClass);
+          if (options.skip_ul) {
+            $applicableElems = $applicableElems.filter(function() {
+              return $applicableElems.closest('ul').count === 0;
+            });
+          }
+          $applicableElems.attr(attr, v);
+          _results2.push($applicableElems.removeClass(htmlClass));
+        }
+        return _results2;
+      })());
+    }
+    return _results;
+  };
+
+  createDivFromTemplateAndData = function(templateDiv, lastName, entry, points) {
+    var $li, $nonUl, $points, $ret, $templateLi, $ul, count, item, _i, _len;
     $ret = $(templateDiv).clone();
-    if ((data.list != null) && data.list.length === 1) {
-      $ret.find('.many').remove();
-    } else {
-      $ret.find('.one').remove();
-    }
-    if (data.list != null) data.count = data.list.length;
-    for (k in data) {
-      v = data[k];
-      if (k !== 'list') $ret.find("." + k).text(v);
-    }
-    if (data.list != null) {
+    fillTemplate($ret, {
+      last_name: lastName
+    });
+    if ($.isArray(entry)) {
+      count = entry.length;
+      fillTemplate($ret, {
+        count: count
+      });
+      $ret.find("." + (count === 1 && 'many' || 'one')).remove();
       $ul = $ret.find('ul');
-      if (data.list.length) {
+      if (count) {
+        $nonUl = $ret.children(':not(ul)');
+        fillTemplate($nonUl, entry[0], {
+          skip_ul: true
+        });
         $templateLi = $ul.find('li');
         $templateLi.remove();
-        _ref = data.list;
-        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-          item = _ref[_i];
+        for (_i = 0, _len = entry.length; _i < _len; _i++) {
+          item = entry[_i];
           $li = $templateLi.clone();
-          for (k in item) {
-            v = item[k];
-            $li.find("." + k).text(v);
-          }
+          fillTemplate($li, item);
           $ul.append($li);
         }
       } else {
         $ul.remove();
       }
+    } else {
+      fillTemplate($ret, entry);
     }
+    $points = $('<div class="points"><span></span> awesome points</div>');
+    $points.find('span').text("" + points);
+    $ret.append($points);
     return $ret[0];
   };
 
+  preprocessData = function(data) {
+    var city, item, name, params, _i, _len, _ref, _results;
+    if (data['quebec-streets'] != null) {
+      _ref = data['quebec-streets'];
+      _results = [];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        item = _ref[_i];
+        name = item['street_name'];
+        city = item['city'];
+        params = {
+          q: "" + name + ", " + city + ", QC, Canada"
+        };
+        _results.push(item['url'] = "http://maps.google.com/maps?" + ($.param(params)));
+      }
+      return _results;
+    }
+  };
+
+  calculatePoints = function(templateName, data) {
+    return 1000;
+  };
+
   $.fn.makeNameAwesomenessDetector = function() {
-    var $form, $loadingTemplate, $notFoundTemplate, $outer, previousRequest, templateKeys, templates;
+    var $form, $loadingTemplate, $notFoundTemplate, $outer, $templates, $totalTemplate, previousRequest, templateKeys, templates;
     $outer = $(this);
     $form = $outer.find('form');
     templates = {};
     templateKeys = [];
-    $loadingTemplate = $('div.templates>div.loading').remove();
-    $notFoundTemplate = $('div.templates>div.not-found').remove();
-    $outer.find('div.templates>div').each(function() {
+    $templates = $('div.templates');
+    $loadingTemplate = $templates.children('div.loading');
+    $notFoundTemplate = $templates.children('div.not-found');
+    $totalTemplate = $templates.children('div.total');
+    $templates.children('div.result').each(function() {
       var templateName;
-      templateName = this.className;
+      templateName = this.className.substring('result '.length);
       templates[templateName] = this;
       return templateKeys.push(templateName);
     });
+    $templates.remove();
     previousRequest = void 0;
     return $outer.find('form').submit(function(e) {
       var $output, name, url;
@@ -183,23 +240,27 @@
         dataType: 'json',
         data: {},
         success: function(data) {
-          var dataDiv, templateData, templateDiv, templateName, _i, _len, _results;
+          var $total, dataDiv, points, templateData, templateDiv, templateName, templatePoints, _i, _len;
           $output.empty();
-          _results = [];
+          preprocessData(data);
+          points = 0;
           for (_i = 0, _len = templateKeys.length; _i < _len; _i++) {
             templateName = templateKeys[_i];
             if (data[templateName] != null) {
+              templateData = data[templateName];
+              templatePoints = calculatePoints(templateName, data[templateName]);
               templateDiv = templates[templateName];
-              templateData = $.extend({
-                last_name: data.last_name
-              }, data[templateName]);
-              dataDiv = createDivFromTemplateAndData(templateDiv, templateData);
-              _results.push($output.append(dataDiv));
-            } else {
-              _results.push(void 0);
+              dataDiv = createDivFromTemplateAndData(templateDiv, data.last_name, templateData, templatePoints);
+              $output.append(dataDiv);
+              points += templatePoints;
             }
           }
-          return _results;
+          $total = $totalTemplate.clone();
+          fillTemplate($total, {
+            last_name: data.last_name,
+            points: points
+          });
+          return $output.append($total);
         },
         error: function(xhr, textStatus, errorThrown) {
           if (xhr.status === 404) {
