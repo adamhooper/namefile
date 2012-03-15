@@ -36,14 +36,13 @@ class NameDb:
             else:
                 capitalizations[name] += 1
 
+        if normalized_name not in self.names: self.names[normalized_name] = {}
+        entry = self.names[normalized_name]
+
         if single_line_per_name:
-            self.names[normalized_name] = item
+            self.names[normalized_name][category] = item
         else:
-            if normalized_name not in self.names: self.names[normalized_name] = {}
-            entry = self.names[normalized_name]
-
             if category not in entry: entry[category] = []
-
             entry[category].append(item)
 
     def capitalizeName(self, normalized_name):
@@ -101,7 +100,7 @@ class StanleyCupWinnersCsvReader(NameCsvReader):
 
 class MontrealMetroStationsCsvReader(NameCsvReader):
     def __init__(self, name_db):
-        super().__init__(name_db, 'montreal-metro-stations', [ 'last_name', 'full_name', 'lines', 'separator' ])
+        super().__init__(name_db, 'montreal-metro-stations', [ 'last_name', 'station_name', 'line', 'separator' ])
 
     def processLine(self, line):
         last_name = line.pop('last_name')
@@ -139,10 +138,13 @@ class QuebecTop1000CsvReader(NameCsvReader):
     def __init__(self, name_db):
         super().__init__(name_db, 'quebec-top1000', [ 'rank', 'last_name', 'percent' ], single_line_per_name=True)
         self.population_of_quebec = 7546131
+        self.significant_digits = 3
 
     def processLine(self, line):
         factor = float(line.pop('percent')) / 100
-        line['approximate_population'] = self.population_of_quebec * factor
+        approximate_population = self.population_of_quebec * factor
+        digits = len("%d" % (int(approximate_population),))
+        line['approximate_population'] = int(round(approximate_population, self.significant_digits - digits))
         last_name = line['last_name']
         return last_name, line
 
