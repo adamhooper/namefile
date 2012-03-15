@@ -1,4 +1,4 @@
-removeDiacraticsMap = {
+removeDiacriticsMap = {
   A: /[\u0041\u24B6\uFF21\u00C0\u00C1\u00C2\u1EA6\u1EA4\u1EAA\u1EA8\u00C3\u0100\u0102\u1EB0\u1EAE\u1EB4\u1EB2\u0226\u01E0\u00C4\u01DE\u1EA2\u00C5\u01FA\u01CD\u0200\u0202\u1EA0\u1EAC\u1EB6\u1E00\u0104\u023A\u2C6F]/g,
   AA: /[\uA732]/g,
   AE: /[\u00C6\u01FC\u01E2]/g,
@@ -86,13 +86,13 @@ removeDiacraticsMap = {
 }
 
 normalizeName = (name) ->
-  for letter, variants of removeDiacraticsMap
+  for letter, variants of removeDiacriticsMap
     name = name.replace(variants, letter)
-  name = name.trim().toLowerCase()
-  name = name.replace(/\s+/g, ' ')
-  name = name.replace(/[^\x00-\x7F]/g, '')
+  name = name.toLowerCase()
   name = name.replace(/[^-'a-z ]/g, '')
-  name = name.replace(/^(de +|des +|la +|du +|l' *|d' *)*/ig, '')
+  name = name.replace(/\b(a|de|des|la|du|l'|d')\b/g, '')
+  name = name.replace(/\s\s+/g, ' ')
+  name = name.trim()
 
 #URL = 'file:///home/adam/src/openfile-names/server/t'
 URL = '/t'
