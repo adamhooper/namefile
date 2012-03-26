@@ -4,6 +4,8 @@
   #name-awesomeness-detector a {
     text-decoration: none;
     color: #e0186c; }
+  #name-awesomeness-detector strong {
+    color: black; }
   #name-awesomeness-detector form label {
     font: bold 20px 'Open Sans', sans-serif;
     display: block;
@@ -99,7 +101,8 @@
     #name-awesomeness-detector div.result h3 {
       width: 450px;
       font-size: 1em;
-      text-transform: uppercase; }
+      text-transform: uppercase;
+      color: #666666; }
   #name-awesomeness-detector div.total h3 {
     font: bold 20px 'Open Sans', sans-serif;
     text-transform: uppercase;

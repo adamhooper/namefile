@@ -3,6 +3,7 @@ $tally_width: 200px;
 $beside_tally_width: $page_width - $tally_width;
 $highlight: #e0186c;
 $faded: #ddd;
+$not_black: #666;
 $inline_block_width: $page_width / 2;
 
 #name-awesomeness-detector {
@@ -12,6 +13,10 @@ $inline_block_width: $page_width / 2;
   a {
     text-decoration: none;
     color: $highlight;
+  }
+
+  strong {
+    color: black;
   }
 
   form {
@@ -144,6 +149,7 @@ $inline_block_width: $page_width / 2;
       width: $beside_tally_width;
       font-size: 1em;
       text-transform: uppercase;
+      color: $not_black;
     }
   }
 
