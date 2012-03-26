@@ -1,5 +1,5 @@
 (function() {
-  var TWITTER_TEXT_LENGTH, TWITTER_URL_LENGTH, URL, buildUrlFromName, calculatePoints, createDivFromTemplateAndData, fillTemplate, formatFloat, formatInteger, formatNumber, formatToDecimalPlaces, formatValue, normalizeName, preprocessData, removeDiacriticsMap, resetTwitterA, setupTwitterA;
+  var TWITTER_TEXT_LENGTH, TWITTER_URL_LENGTH, URL, buildUrlFromName, calculatePoints, cloneTemplateDiv, createDivFromTemplateAndData, fillTemplate, formatFloat, formatInteger, formatNumber, formatToDecimalPlaces, formatValue, normalizeName, preprocessData, removeDiacriticsMap, resetTwitterA, setupTwitterA;
 
   TWITTER_TEXT_LENGTH = 140;
 
@@ -179,9 +179,19 @@
     return _results;
   };
 
+  cloneTemplateDiv = function(templateDiv) {
+    var $outer, html;
+    $outer = $('<div></div>');
+    $outer.append($(templateDiv).clone());
+    html = $outer.html();
+    html = html.replace(/\{\{([a-z_]+)\}\}/g, '<strong class="$1"></strong>');
+    html = html.replace(/\{([a-z_]+)\}/g, '<span class="$1"></span>');
+    return $(html);
+  };
+
   createDivFromTemplateAndData = function(templateDiv, meta, entry, points) {
     var $li, $nonUl, $points, $ret, $templateLi, $ul, count, item, _i, _len;
-    $ret = $(templateDiv).clone();
+    $ret = cloneTemplateDiv(templateDiv);
     fillTemplate($ret, meta);
     if ($.isArray(entry)) {
       count = entry.length;
@@ -311,7 +321,7 @@
     $templates = $('div.templates');
     $loadingTemplate = $templates.children('div.loading');
     $notFoundTemplate = $templates.children('div.not-found');
-    $totalTemplate = $templates.children('div.total');
+    $totalTemplate = cloneTemplateDiv($templates.children('div.total'));
     $templates.children('div.result').each(function() {
       var templateName;
       templateName = this.className.substring('result '.length);

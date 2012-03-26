@@ -23,65 +23,65 @@
         </div>
 
         <div class="result quebec-top1000">
-          <h3>This is the #<strong class="rank"></strong> surname in Quebec.</h3>
-          <p>There are roughly <strong class="approximate_population"></strong> Quebeckers of the <strong class="last_name"></strong> family.</p>
-          <div class="twitter-text">#<span class="rank"></span> in QC</div>
+          <h3>{{last_name}} is the {{rank}} surname in Quebec.</h3>
+          <p>There are roughly {{approximate_population}} Quebeckers of the {{last_name}} family.</p>
+          <div class="twitter-text">#{rank} in QC</div>
         </div>
 
         <div class="result stanley-cup-winners">
-          <h3 class="one"><strong class="last_name"></strong> appears on the Stanley Cup.</h3>
-          <h3 class="many"><strong class="last_name"></strong> appears on the Stanley Cup <strong class="count"></strong> times.</h3>
+          <h3 class="one">{{last_name}} appears on the Stanley Cup.</h3>
+          <h3 class="many">{{last_name}} appears on the Stanley Cup {{count}} times.</h3>
           <ul class="block">
-            <li><strong class="full_name"></strong><span class="team"></span>, <span class="year"></span></li>
+            <li>{{full_name}}{team}, {year}</li>
           </ul>
-          <div class="twitter-text"><span class="count"></span> Stanley Cups</div>
+          <div class="twitter-text">{count} Stanley Cups</div>
         </div>
 
         <div class="result montreal-metro-stations">
-          <h3>A Montreal metro station contains the name <strong class="last_name"></strong>.</h3>
-          <div class="p"><strong class="station_name"></strong> station is on the <ul class="inline"><li><strong class="class-line line"></strong><span class="separator"></span></li></ul> <span class="one">line</span><span class="many">lines</span>.</div>
+          <h3>A Montreal metro station contains the name {{last_name}}.</h3>
+          <div class="p">{{station_name}} station is on the <ul class="inline"><li><strong class="class-line line"></strong>{separator}</li></ul> <span class="one">line</span><span class="many">lines</span>.</div>
           <div class="twitter-text">a Metro station</div>
         </div>
 
         <div class="result orders-of-canada">
-          <h3 class="one">Someone named <strong class="last_name"></strong> achieved an Order of Canada.</h3>
-          <h3 class="many"><strong class="count"></strong> people named <strong class="last_name"></strong> achieved Orders of Canada.</h3>
+          <h3 class="one">Someone named {{last_name}} achieved an Order of Canada.</h3>
+          <h3 class="many">{{count}} people named {{last_name}} achieved Orders of Canada.</h3>
           <ul class="block">
-            <li><strong class="full_name"></strong><span class="city"></span></li>
+            <li>{{full_name}}{city}</li>
           </ul>
           <div class="twitter-text one">an Order of Canada</div>
-          <div class="twitter-text many"><span class="count"></span> Orders of Canada</div>
+          <div class="twitter-text many">{count} Orders of Canada</div>
         </div>
 
         <div class="result orders-of-quebec">
-          <h3 class="one">Someone named <strong class="last_name"></strong> achieved an Ordre national du Québec.</h3>
-          <h3 class="many"><strong class="count"></strong> people named <strong class="last_name"></strong> achieved Ordres nationals du Québec.</h3>
+          <h3 class="one">Someone named {{last_name}} achieved an Ordre national du Québec.</h3>
+          <h3 class="many">{{count}} people named {{last_name}} achieved Ordres nationals du Québec.</h3>
           <ul class="block">
-            <li class="class-level"><strong class="full_name"></strong><span class="level"></span>, <span class="year"></span><span class="from-region">From <span class="region"></span></span><a class="href-url">details</a></li>
+            <li class="class-level">{{full_name}}{level}, {year}<span class="from-region">From {region}</span><a class="href-url">details</a></li>
           </ul>
           <div class="twitter-text one">an Ordre national</div>
-          <div class="twitter-text many"><span class="count"></span> Ordres nationals</div>
+          <div class="twitter-text many">{count} Ordres nationals</div>
         </div>
 
         <div class="result quebec-streets">
-          <h3>There are <strong class="total_km"></strong> kilometres of Quebec streets named after <strong class="last_name"></strong>.</h3>
+          <h3>There are {{total_km}} kilometres of Quebec streets named after {{last_name}}.</h3>
           <ul class="block">
-            <li><strong class="street_name"></strong><span class="km"></span>km in <span class="city"></span><a class="href-url">show on map</a></li>
+            <li>{{street_name}}{km}km in {city}<a class="href-url">show on map</a></li>
           </ul>
-          <div class="twitter-text"><span class="total_km"></span>km of QC streets</div>
+          <div class="twitter-text">{total_km}km of QC streets</div>
         </div>
 
         <div class="result canadiens">
-          <h3 class="one">Someone named <strong class="last_name"></strong> has played for the Montreal Canadiens.</h3>
-          <h3 class="many"><strong class="count"></strong> people named <strong class="last_name"></strong> have played for the Montreal Canadiens.</h3>
+          <h3 class="one">Someone named {{last_name}} has played for the Montreal Canadiens.</h3>
+          <h3 class="many">{{count}} people named {{last_name}} have played for the Montreal Canadiens.</h3>
           <ul class="block">
-            <li><strong class="full_name"></strong> (<strong class="position"></strong>)<span class="origin">From <span class="hometown"></span><span class="origin">Born <span class="birth_year"></span></span><span class="now_playing_for"></span><a class="href-url">show on nhl.com</a></li>
+            <li>{{full_name}} ({{position}})<span class="origin">From {hometown}</span><span class="origin">Born {birth_year}</span>{now_playing_for}<a class="href-url">show on nhl.com</a></li>
           </ul>
-          <div class="twitter-text"><span class="count"></span> Habs</div>
+          <div class="twitter-text">{count} Habs</div>
         </div>
 
         <div class="total">
-          <h3>In total, the <strong class="last_name"></strong> family has an awesome rating of <strong class="points"></strong></h3>
+          <h3>In total, the {{last_name}} family has an awesome rating of {{points}}</h3>
         </div>
 
         <div class="not-found">

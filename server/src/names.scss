@@ -69,6 +69,10 @@ $inline_block_width: $page_width / 2;
     position: relative;
     padding-top: 30px;
 
+    div.twitter-text {
+      display: none;
+    }
+
     div.points {
       float: right;
       width: $tally_width - 20px;

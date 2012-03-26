@@ -43,6 +43,8 @@
   #name-awesomeness-detector div.result {
     position: relative;
     padding-top: 30px; }
+    #name-awesomeness-detector div.result div.twitter-text {
+      display: none; }
     #name-awesomeness-detector div.result div.points {
       float: right;
       width: 180px;

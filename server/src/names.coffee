@@ -144,8 +144,16 @@ fillTemplate = ($elem, vars, options={}) ->
       $applicableElems.attr(attr, v)
       $applicableElems.removeClass(htmlClass)
 
+cloneTemplateDiv = (templateDiv) ->
+  $outer = $('<div></div>')
+  $outer.append($(templateDiv).clone())
+  html = $outer.html()
+  html = html.replace(/\{\{([a-z_]+)\}\}/g, '<strong class="$1"></strong>')
+  html = html.replace(/\{([a-z_]+)\}/g, '<span class="$1"></span>')
+  $(html)
+
 createDivFromTemplateAndData = (templateDiv, meta, entry, points) ->
-  $ret = $(templateDiv).clone()
+  $ret = cloneTemplateDiv(templateDiv)
 
   fillTemplate($ret, meta)
 
@@ -254,7 +262,7 @@ $.fn.makeNameAwesomenessDetector = (initialName) ->
 
   $loadingTemplate = $templates.children('div.loading')
   $notFoundTemplate = $templates.children('div.not-found')
-  $totalTemplate = $templates.children('div.total')
+  $totalTemplate = cloneTemplateDiv($templates.children('div.total'))
 
   $templates.children('div.result').each () ->
     templateName = this.className.substring('result '.length)
