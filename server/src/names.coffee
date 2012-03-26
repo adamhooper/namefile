@@ -200,7 +200,7 @@ calculatePoints = (templateName, meta, data) ->
     when 'canadiens' then 300 * data.length
     else 1
 
-$.fn.makeNameAwesomenessDetector = () ->
+$.fn.makeNameAwesomenessDetector = (initialName) ->
   $outer = $(this)
   $form = $outer.find('form')
   templates = {}
@@ -221,7 +221,7 @@ $.fn.makeNameAwesomenessDetector = () ->
 
   previousRequest = undefined
 
-  $outer.find('form').submit (e) ->
+  $form.submit (e) ->
     e.preventDefault()
     e.stopPropagation()
 
@@ -262,6 +262,8 @@ $.fn.makeNameAwesomenessDetector = () ->
       fillTemplate($total, { last_name: data.last_name, points: points })
       $output.append($total)
 
+      window.location.replace("##{normalizeName(data.last_name)}")
+
     , error: (xhr, textStatus, errorThrown) ->
       if xhr.status == 404
         $output.empty()
@@ -269,3 +271,7 @@ $.fn.makeNameAwesomenessDetector = () ->
     , complete: (xhr, textStatus) ->
       previousRequest = undefined
     })
+
+  if initialName
+    $form.find('input[name=name]').val(initialName)
+    $form.submit()

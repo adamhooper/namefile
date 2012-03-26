@@ -89,7 +89,7 @@
       <script type="text/javascript" src="names.js"></script>
       <script type="text/javascript">
         $(function() {
-          $('div#name-awesomeness-detector').makeNameAwesomenessDetector();
+          $('div#name-awesomeness-detector').makeNameAwesomenessDetector(window.location.hash ? window.location.hash.substring(1) : "");
         });
       </script>
     </div>

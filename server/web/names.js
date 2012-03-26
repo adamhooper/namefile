@@ -254,7 +254,7 @@
     }
   };
 
-  $.fn.makeNameAwesomenessDetector = function() {
+  $.fn.makeNameAwesomenessDetector = function(initialName) {
     var $form, $loadingTemplate, $notFoundTemplate, $outer, $templates, $totalTemplate, previousRequest, templateKeys, templates;
     $outer = $(this);
     $form = $outer.find('form');
@@ -272,7 +272,7 @@
     });
     $templates.remove();
     previousRequest = void 0;
-    return $outer.find('form').submit(function(e) {
+    $form.submit(function(e) {
       var $output, name, url;
       e.preventDefault();
       e.stopPropagation();
@@ -318,7 +318,8 @@
             last_name: data.last_name,
             points: points
           });
-          return $output.append($total);
+          $output.append($total);
+          return window.location.replace("#" + (normalizeName(data.last_name)));
         },
         error: function(xhr, textStatus, errorThrown) {
           if (xhr.status === 404) {
@@ -331,6 +332,10 @@
         }
       });
     });
+    if (initialName) {
+      $form.find('input[name=name]').val(initialName);
+      return $form.submit();
+    }
   };
 
 }).call(this);
