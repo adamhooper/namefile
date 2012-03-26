@@ -100,6 +100,8 @@ class CanadiensCsvReader(NameCsvReader):
 
     def processLine(self, line):
         last_name = line.pop('last_name')
+        line['birth_year'] = line.pop('birthday').split()[-1]
+        line['now_playing_for'] = len(line['team']) and ("Now playing for %s" % line['team']) or None
         return last_name, line
 
 class StanleyCupWinnersCsvReader(NameCsvReader):

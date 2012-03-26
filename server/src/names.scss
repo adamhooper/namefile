@@ -211,4 +211,19 @@ $inline_block_width: $page_width / 2;
       display: block;
     }
   }
+
+  div.canadiens ul.block li {
+    background: url(icons/canadiens.png) no-repeat 0 50%;
+    width: $inline_block_width - 100px;
+    padding-left: 100px;
+    min-height: 60px;
+
+    strong.full_name {
+      display: inline;
+    }
+
+    span.origin, a {
+      display: block;
+    }
+  }
 }

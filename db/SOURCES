@@ -27,3 +27,6 @@
     GROUP BY name, type, dir, csdname_l, csdname_r;
 * stanley-cup-winners.csv:
   Scraped from http://www.nhl.com/ice/page.htm?id=31103 (see scripts/ for the scraping code)
+* canadiens.csv:
+  Scraped from http://www.nhl.com
+  Added birthdays for Louis Berlinquette, Charles Fortier, Roland Lafleur

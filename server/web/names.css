@@ -141,3 +141,12 @@
     background-image: url(icons/order-of-quebec-grand-officer.png); }
   #name-awesomeness-detector div.orders-of-quebec ul.block strong, #name-awesomeness-detector div.orders-of-quebec ul.block a, #name-awesomeness-detector div.orders-of-quebec ul.block span.from-region {
     display: block; }
+  #name-awesomeness-detector div.canadiens ul.block li {
+    background: url(icons/canadiens.png) no-repeat 0 50%;
+    width: 225px;
+    padding-left: 100px;
+    min-height: 60px; }
+    #name-awesomeness-detector div.canadiens ul.block li strong.full_name {
+      display: inline; }
+    #name-awesomeness-detector div.canadiens ul.block li span.origin, #name-awesomeness-detector div.canadiens ul.block li a {
+      display: block; }
