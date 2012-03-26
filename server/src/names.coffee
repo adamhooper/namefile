@@ -94,7 +94,7 @@ normalizeName = (name) ->
   name = name.replace(/\s\s+/g, ' ')
   name = name.trim()
 
-URL = 'http://namefile.adamhooper.com/names/montreal'
+URL = 'http://localhost:8080/names/montreal'
 
 buildUrlFromName = (name) ->
   normalizedName = normalizeName(name)

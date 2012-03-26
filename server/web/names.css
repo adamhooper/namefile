@@ -115,7 +115,6 @@
       color: #e0186c; }
   #name-awesomeness-detector div.orders-of-canada ul.block li {
     background: url(icons/order-of-canada.png) no-repeat 0 50%;
-    padding-left: 38px;
     width: 287px;
     padding-left: 38px;
     min-height: 60px; }
@@ -131,3 +130,14 @@
     min-height: 60px; }
     #name-awesomeness-detector div.quebec-streets ul.block li strong, #name-awesomeness-detector div.quebec-streets ul.block li a {
       display: block; }
+  #name-awesomeness-detector div.orders-of-quebec ul.block li {
+    background: url(icons/order-of-quebec-knight.png) no-repeat 0 50%;
+    width: 287px;
+    padding-left: 38px;
+    min-height: 60px; }
+  #name-awesomeness-detector div.orders-of-quebec ul.block li.officer {
+    background-image: url(icons/order-of-quebec-officer.png); }
+  #name-awesomeness-detector div.orders-of-quebec ul.block li.grand-officer {
+    background-image: url(icons/order-of-quebec-grand-officer.png); }
+  #name-awesomeness-detector div.orders-of-quebec ul.block strong, #name-awesomeness-detector div.orders-of-quebec ul.block a, #name-awesomeness-detector div.orders-of-quebec ul.block span.from-region {
+    display: block; }

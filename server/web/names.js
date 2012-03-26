@@ -101,7 +101,7 @@
     return name = name.trim();
   };
 
-  URL = 'http://namefile.adamhooper.com/names/montreal';
+  URL = 'http://localhost:8080/names/montreal';
 
   buildUrlFromName = function(name) {
     var normalizedName;

@@ -168,7 +168,6 @@ $inline_block_width: $page_width / 2;
 
   div.orders-of-canada ul.block li {
     background: url(icons/order-of-canada.png) no-repeat 0 50%;
-    padding-left: 38px;
     width: $inline_block_width - 38px;
     padding-left: 38px;
     min-height: 60px;
@@ -188,6 +187,27 @@ $inline_block_width: $page_width / 2;
     min-height: 60px;
 
     strong, a {
+      display: block;
+    }
+  }
+
+  div.orders-of-quebec ul.block {
+    li {
+      background: url(icons/order-of-quebec-knight.png) no-repeat 0 50%;
+      width: $inline_block_width - 38px;
+      padding-left: 38px;
+      min-height: 60px;
+    }
+
+    li.officer {
+      background-image: url(icons/order-of-quebec-officer.png);
+    }
+
+    li.grand-officer {
+      background-image: url(icons/order-of-quebec-grand-officer.png);
+    }
+
+    strong, a, span.from-region {
       display: block;
     }
   }
