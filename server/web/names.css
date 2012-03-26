@@ -42,7 +42,7 @@
     cursor: pointer; }
   #name-awesomeness-detector div.result {
     position: relative;
-    padding-top: 10px; }
+    padding-top: 30px; }
     #name-awesomeness-detector div.result div.points {
       float: right;
       width: 180px;
