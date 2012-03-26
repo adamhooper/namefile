@@ -3,6 +3,8 @@
 
   formatToDecimalPlaces = function(f, decimalPlaces) {
     var s;
+    f = Math.round(f * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces);
+    s = f.toFixed(2);
     s = f.toFixed(decimalPlaces);
     while (/\d{4}/.test(s)) {
       s = s.replace(/(\d)(\d{3})\b/, '$1,$2');
@@ -173,12 +175,11 @@
     return _results;
   };
 
-  createDivFromTemplateAndData = function(templateDiv, lastName, entry, points) {
+  createDivFromTemplateAndData = function(templateDiv, meta, entry, points) {
     var $li, $nonUl, $points, $ret, $templateLi, $ul, count, item, _i, _len;
     $ret = $(templateDiv).clone();
-    fillTemplate($ret, {
-      last_name: lastName
-    });
+    console.log(meta);
+    fillTemplate($ret, meta);
     if ($.isArray(entry)) {
       count = entry.length;
       fillTemplate($ret, {
@@ -212,25 +213,34 @@
   };
 
   preprocessData = function(data) {
-    var city, item, name, params, _i, _len, _ref, _results;
+    var city, item, name, params, total_km, _i, _len, _ref;
+    data.extra = {};
     if (data['quebec-streets'] != null) {
+      total_km = 0;
       _ref = data['quebec-streets'];
-      _results = [];
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         item = _ref[_i];
+        total_km += item['km'] || 0;
         name = item['street_name'];
         city = item['city'];
         params = {
           q: "" + name + ", " + city + ", QC, Canada"
         };
-        _results.push(item['url'] = "http://maps.google.com/maps?" + ($.param(params)));
+        item['url'] = "http://maps.google.com/maps?" + ($.param(params));
       }
-      return _results;
+      return data.extra['quebec-streets'] = {
+        total_km: total_km
+      };
     }
   };
 
-  calculatePoints = function(templateName, data) {
-    return 1000;
+  calculatePoints = function(templateName, meta, data) {
+    switch (templateName) {
+      case 'quebec-streets':
+        return Math.round(meta.total_km * 100);
+      default:
+        return 1000;
+    }
   };
 
   $.fn.makeNameAwesomenessDetector = function() {
@@ -274,7 +284,7 @@
         dataType: 'json',
         data: {},
         success: function(data) {
-          var $total, dataDiv, points, templateData, templateDiv, templateName, templatePoints, _i, _len;
+          var $total, dataDiv, meta, points, templateData, templateDiv, templateName, templatePoints, _i, _len;
           $output.empty();
           preprocessData(data);
           points = 0;
@@ -282,9 +292,13 @@
             templateName = templateKeys[_i];
             if (data[templateName] != null) {
               templateData = data[templateName];
-              templatePoints = calculatePoints(templateName, data[templateName]);
+              templatePoints = calculatePoints(templateName, data.extra[templateName], data[templateName]);
               templateDiv = templates[templateName];
-              dataDiv = createDivFromTemplateAndData(templateDiv, data.last_name, templateData, templatePoints);
+              meta = $.extend({
+                last_name: data.last_name
+              }, data.extra[templateName] || {});
+              console.log(meta);
+              dataDiv = createDivFromTemplateAndData(templateDiv, meta, templateData, templatePoints);
               $output.append(dataDiv);
               points += templatePoints;
             }

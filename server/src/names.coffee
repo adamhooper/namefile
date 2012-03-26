@@ -1,4 +1,6 @@
 formatToDecimalPlaces = (f, decimalPlaces) ->
+  f = Math.round(f * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces)
+  s = f.toFixed(2)
   s = f.toFixed(decimalPlaces)
   while /\d{4}/.test(s)
     s = s.replace(/(\d)(\d{3})\b/, '$1,$2')
@@ -139,10 +141,11 @@ fillTemplate = ($elem, vars, options={}) ->
       $applicableElems.attr(attr, v)
       $applicableElems.removeClass(htmlClass)
 
-createDivFromTemplateAndData = (templateDiv, lastName, entry, points) ->
+createDivFromTemplateAndData = (templateDiv, meta, entry, points) ->
   $ret = $(templateDiv).clone()
 
-  fillTemplate($ret, { last_name: lastName})
+  console.log(meta)
+  fillTemplate($ret, meta)
 
   if $.isArray(entry)
     count = entry.length
@@ -175,15 +178,22 @@ createDivFromTemplateAndData = (templateDiv, lastName, entry, points) ->
   $ret[0]
 
 preprocessData = (data) ->
+  data.extra = {}
+
   if data['quebec-streets']?
+    total_km = 0
     for item in data['quebec-streets']
+      total_km += (item['km'] || 0)
       name = item['street_name']
       city = item['city']
       params = { q: "#{name}, #{city}, QC, Canada" }
       item['url'] = "http://maps.google.com/maps?#{$.param(params)}"
+    data.extra['quebec-streets'] = { total_km: total_km }
 
-calculatePoints = (templateName, data) ->
-  1000
+calculatePoints = (templateName, meta, data) ->
+  switch templateName
+    when 'quebec-streets' then Math.round(meta.total_km * 100)
+    else 1000
 
 $.fn.makeNameAwesomenessDetector = () ->
   $outer = $(this)
@@ -235,9 +245,11 @@ $.fn.makeNameAwesomenessDetector = () ->
       for templateName in templateKeys
         if data[templateName]?
           templateData = data[templateName]
-          templatePoints = calculatePoints(templateName, data[templateName])
+          templatePoints = calculatePoints(templateName, data.extra[templateName], data[templateName])
           templateDiv = templates[templateName]
-          dataDiv = createDivFromTemplateAndData(templateDiv, data.last_name, templateData, templatePoints)
+          meta = $.extend({ last_name: data.last_name }, data.extra[templateName] || {})
+          console.log(meta)
+          dataDiv = createDivFromTemplateAndData(templateDiv, meta, templateData, templatePoints)
           $output.append(dataDiv)
 
           points += templatePoints
