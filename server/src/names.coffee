@@ -231,6 +231,10 @@ setupTwitterA = ($a, $output) ->
 
   for textWithPoints in textsWithPoints
     text = textWithPoints.text
+    # Twitter counts number of *codepoints* (not bytes) of NFC-normalized text.
+    # So let's assume we're NFC-normalized and go for it. (If we aren't,
+    # the worst that happens is we make our tweets shorter.)
+    # https://dev.twitter.com/docs/counting-characters
     if "#{fullText}, #{text}. #{textEnd} #{extraText}".length + TWITTER_URL_LENGTH + 1 <= TWITTER_TEXT_LENGTH
       fullText = "#{fullText}, #{text}"
 
