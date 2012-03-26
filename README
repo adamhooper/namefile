@@ -1,10 +1,25 @@
-== Project layout
+= NameFile
 
-* The project looks like a regular Rails app, but that's just to generate
-  the sqlite3 database.
-* script/scrape/: contains scripts for downloading CSVs
-* db/migrate/: migrations import all those CSVs into an SQLite3 database
-* script/export_db.sh: exports the database into a web-server SQLite3 database
-* server/web/: files for web server: index.html, names.js, names.php
-* server/src/: files used to generate what's in server/web/
-* server/backend/: server that responds to JSON requests
+All data is in db/*.csv.
+
+Some of it was scraped from web pages, via Ruby scripts in script/scrape/.
+
+All of it can be smushed into an SQLite3 database for serving via script/build_json_db.py. Then server/backend/wsgi_server.py can serve up JSON on demand.
+
+Users will browse to server/web/index.html and enjoy.
+
+== How to run it
+
+You will need Python 3 and a shell to run your own server.
+
+Run `script/build_json_db.py server/backend/names.sqlite3` to compile the CSV files into something server-ready.
+
+Run `cd server/backend; uwsgi --http :8080 -m wsgi_server.py` to run that server on `http://localhost:8080`.
+
+Test the server by checking a URL: `http://localhost:8080/names/montreal/hooper.json`. You should see some JSON, because "hooper" is in the database.
+
+== How to change things
+
+* Edit `server/web/index.html` to change the HTML.
+* Edit `server/src/names.coffee` to edit the CoffeeScript source. Download CoffeeScript at http://coffeescript.org, and use it like this: `coffee -w -c -o server/web server/src/names.coffee`. Keep the program running, and it'll update the JavaScript as you write CoffeeScript.
+* Edit `server/src/names.scss` to edit the SCSS stylesheet. Download Sass at http://sass-lang.com, and use it like this: `scss --watch server/src/names.scss:server/web/names.css`. Keep the program running, and it'll update the CSS as you write SCSS.
