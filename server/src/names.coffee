@@ -144,7 +144,6 @@ fillTemplate = ($elem, vars, options={}) ->
 createDivFromTemplateAndData = (templateDiv, meta, entry, points) ->
   $ret = $(templateDiv).clone()
 
-  console.log(meta)
   fillTemplate($ret, meta)
 
   if $.isArray(entry)
@@ -192,8 +191,14 @@ preprocessData = (data) ->
 
 calculatePoints = (templateName, meta, data) ->
   switch templateName
+    when 'quebec-top1000' then 1000 - data.rank
+    when 'stanley-cup-winners' then 250 * data.length
+    when 'montreal-metro-stations' then 1000
+    when 'orders-of-canada' then 200 * data.length
+    when 'orders-of-quebec' then 200 * data.length
     when 'quebec-streets' then Math.round(meta.total_km * 100)
-    else 1000
+    when 'canadiens' then 300 * data.length
+    else 1
 
 $.fn.makeNameAwesomenessDetector = () ->
   $outer = $(this)
@@ -248,7 +253,6 @@ $.fn.makeNameAwesomenessDetector = () ->
           templatePoints = calculatePoints(templateName, data.extra[templateName], data[templateName])
           templateDiv = templates[templateName]
           meta = $.extend({ last_name: data.last_name }, data.extra[templateName] || {})
-          console.log(meta)
           dataDiv = createDivFromTemplateAndData(templateDiv, meta, templateData, templatePoints)
           $output.append(dataDiv)
 

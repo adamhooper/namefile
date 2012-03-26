@@ -178,7 +178,6 @@
   createDivFromTemplateAndData = function(templateDiv, meta, entry, points) {
     var $li, $nonUl, $points, $ret, $templateLi, $ul, count, item, _i, _len;
     $ret = $(templateDiv).clone();
-    console.log(meta);
     fillTemplate($ret, meta);
     if ($.isArray(entry)) {
       count = entry.length;
@@ -236,10 +235,22 @@
 
   calculatePoints = function(templateName, meta, data) {
     switch (templateName) {
+      case 'quebec-top1000':
+        return 1000 - data.rank;
+      case 'stanley-cup-winners':
+        return 250 * data.length;
+      case 'montreal-metro-stations':
+        return 1000;
+      case 'orders-of-canada':
+        return 200 * data.length;
+      case 'orders-of-quebec':
+        return 200 * data.length;
       case 'quebec-streets':
         return Math.round(meta.total_km * 100);
+      case 'canadiens':
+        return 300 * data.length;
       default:
-        return 1000;
+        return 1;
     }
   };
 
@@ -297,7 +308,6 @@
               meta = $.extend({
                 last_name: data.last_name
               }, data.extra[templateName] || {});
-              console.log(meta);
               dataDiv = createDivFromTemplateAndData(templateDiv, meta, templateData, templatePoints);
               $output.append(dataDiv);
               points += templatePoints;
