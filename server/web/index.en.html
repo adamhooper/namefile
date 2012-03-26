@@ -75,7 +75,7 @@
           <h3 class="one">Someone named {{last_name}} has played for the Montreal Canadiens.</h3>
           <h3 class="many">{{count}} people named {{last_name}} have played for the Montreal Canadiens.</h3>
           <ul class="block">
-            <li>{{full_name}} ({{position}})<span class="origin">From {hometown}</span><span class="origin">Born {birth_year}</span>{now_playing_for}<a class="href-url">show on nhl.com</a></li>
+            <li>{{full_name}} ({{position}})<span class="origin">From {hometown}</span><span class="origin">Born {birth_year}</span><span class="if-team now_playing_for">Now playing for {team}</span><a class="href-url">show on nhl.com</a></li>
           </ul>
           <div class="twitter-text">{count} Habs</div>
         </div>

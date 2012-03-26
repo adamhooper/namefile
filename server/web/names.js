@@ -150,13 +150,16 @@
   };
 
   fillTemplate = function($elem, vars, options) {
-    var $applicableElems, attr, htmlClass, k, v, _results;
+    var $applicableElems, attr, htmlClass, ifClass, k, v, _results;
     if (options == null) options = {};
     _results = [];
     for (k in vars) {
       v = vars[k];
       if (k !== 'year') v = formatValue(v);
       $elem.find("." + k).text(v);
+      ifClass = "if-" + k;
+      if (!v) $elem.find("." + ifClass).remove();
+      $elem.find("." + ifClass).removeClass(ifClass);
       _results.push((function() {
         var _i, _len, _ref, _results2;
         _ref = ['class', 'href'];

@@ -136,6 +136,10 @@ fillTemplate = ($elem, vars, options={}) ->
 
     $elem.find(".#{k}").text(v)
 
+    ifClass = "if-#{k}"
+    $elem.find(".#{ifClass}").remove() if !v
+    $elem.find(".#{ifClass}").removeClass(ifClass)
+
     for attr in [ 'class', 'href' ]
       htmlClass = "#{attr}-#{k}"
       $applicableElems = $elem.find(".#{htmlClass}")
