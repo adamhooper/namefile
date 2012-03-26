@@ -1,5 +1,9 @@
 (function() {
-  var URL, buildUrlFromName, calculatePoints, createDivFromTemplateAndData, fillTemplate, formatFloat, formatInteger, formatNumber, formatToDecimalPlaces, formatValue, normalizeName, preprocessData, removeDiacriticsMap;
+  var TWITTER_TEXT_LENGTH, TWITTER_URL_LENGTH, URL, buildUrlFromName, calculatePoints, createDivFromTemplateAndData, fillTemplate, formatFloat, formatInteger, formatNumber, formatToDecimalPlaces, formatValue, normalizeName, preprocessData, removeDiacriticsMap, resetTwitterA, setupTwitterA;
+
+  TWITTER_TEXT_LENGTH = 140;
+
+  TWITTER_URL_LENGTH = 20;
 
   formatToDecimalPlaces = function(f, decimalPlaces) {
     var s;
@@ -254,10 +258,54 @@
     }
   };
 
+  resetTwitterA = function($a) {
+    $a.attr('data-text', $a.data('original-text'));
+    return $a.attr('data-url', window.location);
+  };
+
+  setupTwitterA = function($a, $output) {
+    var extraText, fullText, lastName, text, textEnd, textStart, textWithPoints, textsWithPoints, _i, _len;
+    textsWithPoints = [];
+    $output.children('.result').each(function() {
+      var points, text;
+      text = $(this).find('.twitter-text').text();
+      points = +($(this).find('.points span').text() || '').replace(',', '');
+      if (text && points) {
+        return textsWithPoints.push({
+          text: text,
+          points: points
+        });
+      }
+    });
+    if (textsWithPoints.length === 0) {
+      resetTwitterA($a);
+      return;
+    }
+    lastName = $output.find('.total .last_name').text();
+    textStart = $a.attr('data-real-text-start').replace('#{last_name}', lastName);
+    textEnd = $a.attr('data-real-text-end');
+    extraText = " #" + ($a.attr('data-hashtags').replace(/.*=/, '')) + " via @" + ($a.attr('data-via'));
+    textsWithPoints.sort(function(a, b) {
+      return b.points - a.points || b.text.localeCompare(a.text);
+    });
+    fullText = textStart + textsWithPoints.shift().text;
+    for (_i = 0, _len = textsWithPoints.length; _i < _len; _i++) {
+      textWithPoints = textsWithPoints[_i];
+      text = textWithPoints.text;
+      if (("" + fullText + ", " + text + ". " + textEnd + " " + extraText).length + TWITTER_URL_LENGTH + 1 <= TWITTER_TEXT_LENGTH) {
+        fullText = "" + fullText + ", " + text;
+      }
+    }
+    fullText = "" + fullText + ". " + textEnd;
+    return $a.attr('data-text', fullText);
+  };
+
   $.fn.makeNameAwesomenessDetector = function(initialName) {
-    var $form, $loadingTemplate, $notFoundTemplate, $outer, $templates, $totalTemplate, previousRequest, templateKeys, templates;
+    var $form, $loadingTemplate, $notFoundTemplate, $outer, $templates, $totalTemplate, $twitterA, previousRequest, templateKeys, templates;
     $outer = $(this);
     $form = $outer.find('form');
+    $twitterA = $outer.find('a.twitter-share-button');
+    $twitterA.data('original-text', $twitterA.attr('data-text'));
     templates = {};
     templateKeys = [];
     $templates = $('div.templates');
@@ -276,10 +324,11 @@
       var $output, name, url;
       e.preventDefault();
       e.stopPropagation();
+      resetTwitterA($twitterA);
       $outer.children('.output').remove();
       $output = $('<div class="output"></div>');
       $output.append($loadingTemplate.clone());
-      $outer.find('.sources').before($output);
+      $form.after($output);
       name = $outer.find('input[name=name]').val() || '';
       url = buildUrlFromName(name);
       if (typeof request !== "undefined" && request !== null) {
@@ -288,6 +337,8 @@
       }
       if (!(url != null)) {
         $output.remove();
+        resetTwitterA($twitterA);
+        window.location.replace("#");
         return;
       }
       return previousRequest = $.ajax({
@@ -313,22 +364,24 @@
               points += templatePoints;
             }
           }
+          window.location.replace("#" + (normalizeName(data.last_name)));
           $total = $totalTemplate.clone();
           fillTemplate($total, {
             last_name: data.last_name,
             points: points
           });
-          $output.append($total);
-          return window.location.replace("#" + (normalizeName(data.last_name)));
+          return $output.append($total);
         },
         error: function(xhr, textStatus, errorThrown) {
           if (xhr.status === 404) {
             $output.empty();
-            return $output.append($notFoundTemplate.clone());
+            $output.append($notFoundTemplate.clone());
+            return window.location.replace("#");
           }
         },
         complete: function(xhr, textStatus) {
-          return previousRequest = void 0;
+          previousRequest = void 0;
+          return setupTwitterA($twitterA, $output);
         }
       });
     });

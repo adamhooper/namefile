@@ -1,3 +1,6 @@
+TWITTER_TEXT_LENGTH = 140
+TWITTER_URL_LENGTH = 20
+
 formatToDecimalPlaces = (f, decimalPlaces) ->
   f = Math.round(f * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces)
   s = f.toFixed(2)
@@ -200,9 +203,46 @@ calculatePoints = (templateName, meta, data) ->
     when 'canadiens' then 300 * data.length
     else 1
 
+resetTwitterA = ($a) ->
+  $a.attr('data-text', $a.data('original-text'))
+  $a.attr('data-url', window.location)
+
+setupTwitterA = ($a, $output) ->
+  textsWithPoints = []
+
+  $output.children('.result').each () ->
+    text = $(this).find('.twitter-text').text()
+    points = +($(this).find('.points span').text() || '').replace(',', '')
+    textsWithPoints.push({ text: text, points: points }) if text && points
+
+  if textsWithPoints.length == 0
+    resetTwitterA($a)
+    return
+
+  lastName = $output.find('.total .last_name').text()
+  textStart = $a.attr('data-real-text-start').replace('#{last_name}', lastName)
+  textEnd = $a.attr('data-real-text-end')
+
+  extraText = " ##{$a.attr('data-hashtags').replace(/.*=/, '')} via @#{$a.attr('data-via')}"
+
+  textsWithPoints.sort((a, b) -> b.points - a.points || b.text.localeCompare(a.text))
+
+  fullText = textStart + textsWithPoints.shift().text
+
+  for textWithPoints in textsWithPoints
+    text = textWithPoints.text
+    if "#{fullText}, #{text}. #{textEnd} #{extraText}".length + TWITTER_URL_LENGTH + 1 <= TWITTER_TEXT_LENGTH
+      fullText = "#{fullText}, #{text}"
+
+  fullText = "#{fullText}. #{textEnd}"
+
+  $a.attr('data-text', fullText)
+
 $.fn.makeNameAwesomenessDetector = (initialName) ->
   $outer = $(this)
   $form = $outer.find('form')
+  $twitterA = $outer.find('a.twitter-share-button')
+  $twitterA.data('original-text', $twitterA.attr('data-text'))
   templates = {}
   templateKeys = [] # in order
 
@@ -225,11 +265,12 @@ $.fn.makeNameAwesomenessDetector = (initialName) ->
     e.preventDefault()
     e.stopPropagation()
 
+    resetTwitterA($twitterA)
     $outer.children('.output').remove()
 
     $output = $('<div class="output"></div>')
     $output.append($loadingTemplate.clone())
-    $outer.find('.sources').before($output)
+    $form.after($output)
 
     name = $outer.find('input[name=name]').val() || ''
     url = buildUrlFromName(name)
@@ -240,6 +281,8 @@ $.fn.makeNameAwesomenessDetector = (initialName) ->
 
     if !url?
       $output.remove()
+      resetTwitterA($twitterA)
+      window.location.replace("#")
       return
 
     previousRequest = $.ajax({ url: url, dataType: 'json', data: {}, success: (data) ->
@@ -258,18 +301,19 @@ $.fn.makeNameAwesomenessDetector = (initialName) ->
 
           points += templatePoints
 
+      window.location.replace("##{normalizeName(data.last_name)}")
+
       $total = $totalTemplate.clone()
       fillTemplate($total, { last_name: data.last_name, points: points })
       $output.append($total)
-
-      window.location.replace("##{normalizeName(data.last_name)}")
-
     , error: (xhr, textStatus, errorThrown) ->
       if xhr.status == 404
         $output.empty()
         $output.append($notFoundTemplate.clone())
+        window.location.replace("#")
     , complete: (xhr, textStatus) ->
       previousRequest = undefined
+      setupTwitterA($twitterA, $output)
     })
 
   if initialName

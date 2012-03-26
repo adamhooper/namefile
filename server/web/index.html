@@ -25,6 +25,7 @@
         <div class="result quebec-top1000">
           <h3>This is the #<strong class="rank"></strong> surname in Quebec.</h3>
           <p>There are roughly <strong class="approximate_population"></strong> Quebeckers of the <strong class="last_name"></strong> family.</p>
+          <div class="twitter-text">#<span class="rank"></span> in QC</div>
         </div>
 
         <div class="result stanley-cup-winners">
@@ -33,11 +34,13 @@
           <ul class="block">
             <li><strong class="full_name"></strong><span class="team"></span>, <span class="year"></span></li>
           </ul>
+          <div class="twitter-text"><span class="count"></span> Stanley Cups</div>
         </div>
 
         <div class="result montreal-metro-stations">
           <h3>A Montreal metro station contains the name <strong class="last_name"></strong>.</h3>
           <div class="p"><strong class="station_name"></strong> station is on the <ul class="inline"><li><strong class="class-line line"></strong><span class="separator"></span></li></ul> <span class="one">line</span><span class="many">lines</span>.</div>
+          <div class="twitter-text">a Metro station</div>
         </div>
 
         <div class="result orders-of-canada">
@@ -46,6 +49,8 @@
           <ul class="block">
             <li><strong class="full_name"></strong><span class="city"></span></li>
           </ul>
+          <div class="twitter-text one">an Order of Canada</div>
+          <div class="twitter-text many"><span class="count"></span> Orders of Canada</div>
         </div>
 
         <div class="result orders-of-quebec">
@@ -54,6 +59,8 @@
           <ul class="block">
             <li class="class-level"><strong class="full_name"></strong><span class="level"></span>, <span class="year"></span><span class="from-region">From <span class="region"></span></span><a class="href-url">details</a></li>
           </ul>
+          <div class="twitter-text one">an Ordre national</div>
+          <div class="twitter-text many"><span class="count"></span> Ordres nationals</div>
         </div>
 
         <div class="result quebec-streets">
@@ -61,6 +68,7 @@
           <ul class="block">
             <li><strong class="street_name"></strong><span class="km"></span>km in <span class="city"></span><a class="href-url">show on map</a></li>
           </ul>
+          <div class="twitter-text"><span class="total_km"></span>km of QC streets</div>
         </div>
 
         <div class="result canadiens">
@@ -69,6 +77,7 @@
           <ul class="block">
             <li><strong class="full_name"></strong> (<strong class="position"></strong>)<span class="origin">From <span class="hometown"></span><span class="origin">Born <span class="birth_year"></span></span><span class="now_playing_for"></span><a class="href-url">show on nhl.com</a></li>
           </ul>
+          <div class="twitter-text"><span class="count"></span> Habs</div>
         </div>
 
         <div class="total">
@@ -78,6 +87,10 @@
         <div class="not-found">
           <h3>We have no idea how awesome this name is. Try a friend's last name, maybe?</h3>
         </div>
+      </div>
+
+      <div class="share">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-size="large" data-text="How awesome is your last name?" data-via="OpenFile" data-real-text-start='"#{last_name}": ' data-real-text-end="How awesome is your name?" data-hashtags="NameFile" data-count="horizontal">Tweet #NameFile</a>
       </div>
 
       <div class="sources">
@@ -92,6 +105,7 @@
           $('div#name-awesomeness-detector').makeNameAwesomenessDetector(window.location.hash ? window.location.hash.substring(1) : "");
         });
       </script>
+      <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="http://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
     </div>
   </body>
 </html>
