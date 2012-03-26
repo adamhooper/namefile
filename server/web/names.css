@@ -150,3 +150,8 @@
       display: inline; }
     #name-awesomeness-detector div.canadiens ul.block li span.origin, #name-awesomeness-detector div.canadiens ul.block li a {
       display: block; }
+  #name-awesomeness-detector div.quebec-top1000 p {
+    background: url(icons/quebec-top1000.png) no-repeat 0 50%;
+    padding-left: 185px;
+    min-height: 60px;
+    line-height: 30px; }

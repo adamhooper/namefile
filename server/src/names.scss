@@ -226,4 +226,11 @@ $inline_block_width: $page_width / 2;
       display: block;
     }
   }
+
+  div.quebec-top1000 p {
+    background: url(icons/quebec-top1000.png) no-repeat 0 50%;
+    padding-left: 185px;
+    min-height: 60px;
+    line-height: 30px;
+  }
 }
