@@ -172,7 +172,7 @@ createDivFromTemplateAndData = (templateDiv, meta, entry, points) ->
 
   $points = $('<div class="points"><span></span> awesome points</div>')
   $points.find('span').text("#{formatInteger(points)}")
-  $ret.append($points)
+  $ret.prepend($points)
 
   $ret[0]
 
@@ -191,7 +191,7 @@ preprocessData = (data) ->
 
 calculatePoints = (templateName, meta, data) ->
   switch templateName
-    when 'quebec-top1000' then 1000 - data.rank
+    when 'quebec-top1000' then 1001 - data.rank
     when 'stanley-cup-winners' then 250 * data.length
     when 'montreal-metro-stations' then 1000
     when 'orders-of-canada' then 200 * data.length

@@ -207,7 +207,7 @@
     }
     $points = $('<div class="points"><span></span> awesome points</div>');
     $points.find('span').text("" + (formatInteger(points)));
-    $ret.append($points);
+    $ret.prepend($points);
     return $ret[0];
   };
 
@@ -236,7 +236,7 @@
   calculatePoints = function(templateName, meta, data) {
     switch (templateName) {
       case 'quebec-top1000':
-        return 1000 - data.rank;
+        return 1001 - data.rank;
       case 'stanley-cup-winners':
         return 250 * data.length;
       case 'montreal-metro-stations':

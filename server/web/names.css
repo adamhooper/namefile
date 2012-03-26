@@ -42,13 +42,9 @@
     cursor: pointer; }
   #name-awesomeness-detector div.result {
     position: relative;
-    padding-top: 10px;
-    margin-top: 20px;
-    border-top: 5px solid #dddddd; }
+    padding-top: 10px; }
     #name-awesomeness-detector div.result div.points {
-      position: absolute;
-      right: 0;
-      top: -20px;
+      float: right;
       width: 180px;
       padding: 10px;
       height: 65px;
@@ -99,7 +95,14 @@
       margin: 10px 0 20px;
       padding: 0; }
     #name-awesomeness-detector div.result h3 {
-      width: 450px;
+      margin-top: 0px;
+      padding-top: 15px;
+      min-height: 2em;
+      clear: none;
+      border-image: url(styles/h3-top.png) 19 9 0 0;
+      border-image-repeat: repeat;
+      border-width: 19px 9px 0 0;
+      width: 441px;
       font-size: 1em;
       text-transform: uppercase;
       color: #666666; }

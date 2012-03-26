@@ -68,13 +68,9 @@ $inline_block_width: $page_width / 2;
   div.result {
     position: relative;
     padding-top: 10px;
-    margin-top: 20px;
-    border-top: 5px solid $faded;
 
     div.points {
-      position: absolute;
-      right: 0;
-      top: -20px;
+      float: right;
       width: $tally_width - 20px;
       padding: 10px;
       height: 65px;
@@ -146,7 +142,15 @@ $inline_block_width: $page_width / 2;
     }
 
     h3 {
-      width: $beside_tally_width;
+      margin-top: 0px;
+      padding-top: 15px;
+      min-height: 2em;
+      clear: none;
+      border-image: url(styles/h3-top.png) 19 9 0 0;
+      border-image-repeat: repeat;
+      border-width: 19px 9px 0 0;
+
+      width: $beside_tally_width - 9px;
       font-size: 1em;
       text-transform: uppercase;
       color: $not_black;
