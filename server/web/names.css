@@ -155,3 +155,8 @@
     padding-left: 185px;
     min-height: 60px;
     line-height: 30px; }
+  #name-awesomeness-detector div.montreal-metro-stations div.p {
+    background: url(icons/montreal-metro-station.png) no-repeat 0 50%;
+    padding-left: 70px;
+    min-height: 60px;
+    line-height: 60px; }

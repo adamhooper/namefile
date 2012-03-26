@@ -233,4 +233,11 @@ $inline_block_width: $page_width / 2;
     min-height: 60px;
     line-height: 30px;
   }
+
+  div.montreal-metro-stations div.p {
+    background: url(icons/montreal-metro-station.png) no-repeat 0 50%;
+    padding-left: 70px;
+    min-height: 60px;
+    line-height: 60px;
+  }
 }
