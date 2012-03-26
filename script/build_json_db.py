@@ -114,7 +114,7 @@ class StanleyCupWinnersCsvReader(NameCsvReader):
 
 class MontrealMetroStationsCsvReader(NameCsvReader):
     def __init__(self, name_db):
-        super().__init__(name_db, 'montreal-metro-stations', [ 'last_name', 'station_name', 'line', 'separator' ])
+        super().__init__(name_db, 'montreal-metro-stations', [ 'last_name', 'station_name', 'line' ])
 
     def processLine(self, line):
         last_name = line.pop('last_name')
