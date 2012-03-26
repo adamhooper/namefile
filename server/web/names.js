@@ -1,5 +1,38 @@
 (function() {
-  var URL, buildUrlFromName, calculatePoints, createDivFromTemplateAndData, fillTemplate, normalizeName, preprocessData, removeDiacriticsMap;
+  var URL, buildUrlFromName, calculatePoints, createDivFromTemplateAndData, fillTemplate, formatFloat, formatInteger, formatNumber, formatToDecimalPlaces, formatValue, normalizeName, preprocessData, removeDiacriticsMap;
+
+  formatToDecimalPlaces = function(f, decimalPlaces) {
+    var s;
+    s = f.toFixed(decimalPlaces);
+    while (/\d{4}/.test(s)) {
+      s = s.replace(/(\d)(\d{3})\b/, '$1,$2');
+    }
+    return s;
+  };
+
+  formatFloat = function(f) {
+    return formatToDecimalPlaces(f, 2);
+  };
+
+  formatInteger = function(i) {
+    return formatToDecimalPlaces(i, 0);
+  };
+
+  formatNumber = function(f) {
+    if (f === Math.round(f)) {
+      return formatInteger(f);
+    } else {
+      return formatFloat(f);
+    }
+  };
+
+  formatValue = function(v) {
+    if (typeof v === 'number') {
+      return formatNumber(v);
+    } else {
+      return v;
+    }
+  };
 
   removeDiacriticsMap = {
     A: /[\u0041\u24B6\uFF21\u00C0\u00C1\u00C2\u1EA6\u1EA4\u1EAA\u1EA8\u00C3\u0100\u0102\u1EB0\u1EAE\u1EB4\u1EB2\u0226\u01E0\u00C4\u01DE\u1EA2\u00C5\u01FA\u01CD\u0200\u0202\u1EA0\u1EAC\u1EB6\u1E00\u0104\u023A\u2C6F]/g,
@@ -116,6 +149,7 @@
     _results = [];
     for (k in vars) {
       v = vars[k];
+      if (k !== 'year') v = formatValue(v);
       $elem.find("." + k).text(v);
       _results.push((function() {
         var _i, _len, _ref, _results2;
@@ -172,7 +206,7 @@
       fillTemplate($ret, entry);
     }
     $points = $('<div class="points"><span></span> awesome points</div>');
-    $points.find('span').text("" + points);
+    $points.find('span').text("" + (formatInteger(points)));
     $ret.append($points);
     return $ret[0];
   };
