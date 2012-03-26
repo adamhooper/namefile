@@ -104,7 +104,7 @@
       text-transform: uppercase;
       color: #666666; }
   #name-awesomeness-detector div.total h3 {
-    font: bold 20px 'Open Sans', sans-serif;
+    font: bold 18px 'Open Sans', sans-serif;
     text-transform: uppercase;
     text-align: center; }
     #name-awesomeness-detector div.total h3 strong.last_name {
@@ -163,3 +163,11 @@
     padding-left: 70px;
     min-height: 60px;
     line-height: 60px; }
+  #name-awesomeness-detector div.sources {
+    padding: 3em 0 0;
+    font: 14px 'Open Sans', sans-serif; }
+    #name-awesomeness-detector div.sources a {
+      text-transform: uppercase; }
+    #name-awesomeness-detector div.sources span {
+      display: block;
+      float: right; }

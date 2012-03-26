@@ -229,7 +229,7 @@ $.fn.makeNameAwesomenessDetector = () ->
 
     $output = $('<div class="output"></div>')
     $output.append($loadingTemplate.clone())
-    $outer.append($output)
+    $outer.find('.sources').before($output)
 
     name = $outer.find('input[name=name]').val() || ''
     url = buildUrlFromName(name)
