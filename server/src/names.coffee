@@ -3,9 +3,10 @@ TWITTER_URL_LENGTH = 20
 
 $.fn.makeNameAwesomenessDetector = (initialName, locale) ->
   $outer = $(this)
+  locale.language = $outer.attr('lang') || 'en'
   $form = $outer.find('form')
-  $twitterA = $outer.find('a.twitter-share-button')
-  $twitterA.data('original-text', $twitterA.attr('data-text'))
+  $share = $outer.find('.share')
+  $twitter = $share.find('.twitter').remove()
   templates = {}
   templateKeys = [] # in order
   previousRequest = undefined
@@ -234,47 +235,51 @@ $.fn.makeNameAwesomenessDetector = (initialName, locale) ->
       when 'canadiens' then 300 * data.length
       else 1
 
-  resetTwitterA = () ->
-    $a = $twitterA
-    $a.attr('data-text', $a.data('original-text'))
-    $a.attr('data-url', window.location)
+  resetTwitter = ($output = undefined) ->
+    $share.find('.twitter').remove()
+    $newDiv = $twitter.clone()
+    $newDiv.find('a').addClass('twitter-share-button')
+    $a = $newDiv.children()
+    url = window.location.href
+    url_minus_hash = window.location.href.split(/\#/)[0]
+    $a.attr('data-counturl', url_minus_hash)
+    $a.attr('data-url', url)
+    $a.attr('data-lang', locale.language)
 
-  setupTwitterA = ($output) ->
-    $a = $twitterA
     textsWithPoints = []
 
-    $output.children('.result').each () ->
-      text = $(this).find('.twitter-text').text()
-      points = +($(this).find('.points span').text() || '').replace(',', '')
-      textsWithPoints.push({ text: text, points: points }) if text && points
+    if $output && $output.length
+      $output.children('.result').each () ->
+        text = $(this).find('.twitter-text').text()
+        points = +($(this).find('.points span').text() || '').replace(',', '')
+        textsWithPoints.push({ text: text, points: points }) if text && points
 
-    if textsWithPoints.length == 0
-      resetTwitterA($a)
-      return
+    if textsWithPoints.length
+      lastName = $output.find('.total .last_name').text()
+      textStart = $a.attr('data-real-text-start').replace('#{last_name}', lastName)
+      textEnd = $a.attr('data-real-text-end')
 
-    lastName = $output.find('.total .last_name').text()
-    textStart = $a.attr('data-real-text-start').replace('#{last_name}', lastName)
-    textEnd = $a.attr('data-real-text-end')
+      extraText = " ##{$a.attr('data-hashtags').replace(/.*=/, '')} via @#{$a.attr('data-via')}"
 
-    extraText = " ##{$a.attr('data-hashtags').replace(/.*=/, '')} via @#{$a.attr('data-via')}"
+      textsWithPoints.sort((a, b) -> b.points - a.points || b.text.localeCompare(a.text))
 
-    textsWithPoints.sort((a, b) -> b.points - a.points || b.text.localeCompare(a.text))
+      fullText = textStart + textsWithPoints.shift().text
 
-    fullText = textStart + textsWithPoints.shift().text
+      for textWithPoints in textsWithPoints
+        text = textWithPoints.text
+        # Twitter counts number of *codepoints* (not bytes) of NFC-normalized text.
+        # So let's assume we're NFC-normalized and go for it. (If we aren't,
+        # the worst that happens is we make our tweets shorter.)
+        # https://dev.twitter.com/docs/counting-characters
+        if "#{fullText}, #{text}. #{textEnd} #{extraText}".length + TWITTER_URL_LENGTH + 1 <= TWITTER_TEXT_LENGTH
+          fullText = "#{fullText}, #{text}"
 
-    for textWithPoints in textsWithPoints
-      text = textWithPoints.text
-      # Twitter counts number of *codepoints* (not bytes) of NFC-normalized text.
-      # So let's assume we're NFC-normalized and go for it. (If we aren't,
-      # the worst that happens is we make our tweets shorter.)
-      # https://dev.twitter.com/docs/counting-characters
-      if "#{fullText}, #{text}. #{textEnd} #{extraText}".length + TWITTER_URL_LENGTH + 1 <= TWITTER_TEXT_LENGTH
-        fullText = "#{fullText}, #{text}"
+      fullText = "#{fullText}. #{textEnd}"
 
-    fullText = "#{fullText}. #{textEnd}"
+      $a.attr('data-text', fullText)
 
-    $a.attr('data-text', fullText)
-
+    $share.append($newDiv)
+    twttr.widgets.load() if window.twttr?
 
   $templates = $('div.templates')
 
@@ -293,7 +298,7 @@ $.fn.makeNameAwesomenessDetector = (initialName, locale) ->
     e.preventDefault()
     e.stopPropagation()
 
-    resetTwitterA()
+    resetTwitter()
     $outer.children('.output').remove()
 
     $output = $('<div class="output"></div>')
@@ -309,7 +314,7 @@ $.fn.makeNameAwesomenessDetector = (initialName, locale) ->
 
     if !url?
       $output.remove()
-      resetTwitterA()
+      resetTwitter()
       window.location.replace("#")
       return
 
@@ -341,7 +346,7 @@ $.fn.makeNameAwesomenessDetector = (initialName, locale) ->
         window.location.replace("#")
     , complete: (xhr, textStatus) ->
       previousRequest = undefined
-      setupTwitterA($output)
+      resetTwitter($output)
     })
 
   if initialName

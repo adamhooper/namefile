@@ -6,11 +6,12 @@
   TWITTER_URL_LENGTH = 20;
 
   $.fn.makeNameAwesomenessDetector = function(initialName, locale) {
-    var $form, $loadingTemplate, $notFoundTemplate, $outer, $templates, $totalTemplate, $twitterA, URL, buildUrlFromName, calculatePoints, cloneTemplateDiv, createDivFromTemplateAndData, fillTemplate, formatFloat, formatInteger, formatNumber, formatToDecimalPlaces, formatValue, normalizeName, preprocessData, previousRequest, removeDiacriticsMap, resetTwitterA, setupTwitterA, templateKeys, templates;
+    var $form, $loadingTemplate, $notFoundTemplate, $outer, $share, $templates, $totalTemplate, $twitter, URL, buildUrlFromName, calculatePoints, cloneTemplateDiv, createDivFromTemplateAndData, fillTemplate, formatFloat, formatInteger, formatNumber, formatToDecimalPlaces, formatValue, normalizeName, preprocessData, previousRequest, removeDiacriticsMap, resetTwitter, templateKeys, templates;
     $outer = $(this);
+    locale.language = $outer.attr('lang') || 'en';
     $form = $outer.find('form');
-    $twitterA = $outer.find('a.twitter-share-button');
-    $twitterA.data('original-text', $twitterA.attr('data-text'));
+    $share = $outer.find('.share');
+    $twitter = $share.find('.twitter').remove();
     templates = {};
     templateKeys = [];
     previousRequest = void 0;
@@ -282,48 +283,53 @@
           return 1;
       }
     };
-    resetTwitterA = function() {
-      var $a;
-      $a = $twitterA;
-      $a.attr('data-text', $a.data('original-text'));
-      return $a.attr('data-url', window.location);
-    };
-    setupTwitterA = function($output) {
-      var $a, extraText, fullText, lastName, text, textEnd, textStart, textWithPoints, textsWithPoints, _i, _len;
-      $a = $twitterA;
+    resetTwitter = function($output) {
+      var $a, $newDiv, extraText, fullText, lastName, text, textEnd, textStart, textWithPoints, textsWithPoints, url, url_minus_hash, _i, _len;
+      if ($output == null) $output = void 0;
+      $share.find('.twitter').remove();
+      $newDiv = $twitter.clone();
+      $newDiv.find('a').addClass('twitter-share-button');
+      $a = $newDiv.children();
+      url = window.location.href;
+      url_minus_hash = window.location.href.split(/\#/)[0];
+      $a.attr('data-counturl', url_minus_hash);
+      $a.attr('data-url', url);
+      $a.attr('data-lang', locale.language);
       textsWithPoints = [];
-      $output.children('.result').each(function() {
-        var points, text;
-        text = $(this).find('.twitter-text').text();
-        points = +($(this).find('.points span').text() || '').replace(',', '');
-        if (text && points) {
-          return textsWithPoints.push({
-            text: text,
-            points: points
-          });
-        }
-      });
-      if (textsWithPoints.length === 0) {
-        resetTwitterA($a);
-        return;
+      if ($output && $output.length) {
+        $output.children('.result').each(function() {
+          var points, text;
+          text = $(this).find('.twitter-text').text();
+          points = +($(this).find('.points span').text() || '').replace(',', '');
+          if (text && points) {
+            return textsWithPoints.push({
+              text: text,
+              points: points
+            });
+          }
+        });
       }
-      lastName = $output.find('.total .last_name').text();
-      textStart = $a.attr('data-real-text-start').replace('#{last_name}', lastName);
-      textEnd = $a.attr('data-real-text-end');
-      extraText = " #" + ($a.attr('data-hashtags').replace(/.*=/, '')) + " via @" + ($a.attr('data-via'));
-      textsWithPoints.sort(function(a, b) {
-        return b.points - a.points || b.text.localeCompare(a.text);
-      });
-      fullText = textStart + textsWithPoints.shift().text;
-      for (_i = 0, _len = textsWithPoints.length; _i < _len; _i++) {
-        textWithPoints = textsWithPoints[_i];
-        text = textWithPoints.text;
-        if (("" + fullText + ", " + text + ". " + textEnd + " " + extraText).length + TWITTER_URL_LENGTH + 1 <= TWITTER_TEXT_LENGTH) {
-          fullText = "" + fullText + ", " + text;
+      if (textsWithPoints.length) {
+        lastName = $output.find('.total .last_name').text();
+        textStart = $a.attr('data-real-text-start').replace('#{last_name}', lastName);
+        textEnd = $a.attr('data-real-text-end');
+        extraText = " #" + ($a.attr('data-hashtags').replace(/.*=/, '')) + " via @" + ($a.attr('data-via'));
+        textsWithPoints.sort(function(a, b) {
+          return b.points - a.points || b.text.localeCompare(a.text);
+        });
+        fullText = textStart + textsWithPoints.shift().text;
+        for (_i = 0, _len = textsWithPoints.length; _i < _len; _i++) {
+          textWithPoints = textsWithPoints[_i];
+          text = textWithPoints.text;
+          if (("" + fullText + ", " + text + ". " + textEnd + " " + extraText).length + TWITTER_URL_LENGTH + 1 <= TWITTER_TEXT_LENGTH) {
+            fullText = "" + fullText + ", " + text;
+          }
         }
+        fullText = "" + fullText + ". " + textEnd;
+        $a.attr('data-text', fullText);
       }
-      fullText = "" + fullText + ". " + textEnd;
-      return $a.attr('data-text', fullText);
+      $share.append($newDiv);
+      if (window.twttr != null) return twttr.widgets.load();
     };
     $templates = $('div.templates');
     $loadingTemplate = $templates.children('div.loading');
@@ -340,7 +346,7 @@
       var $output, name, url;
       e.preventDefault();
       e.stopPropagation();
-      resetTwitterA();
+      resetTwitter();
       $outer.children('.output').remove();
       $output = $('<div class="output"></div>');
       $output.append($loadingTemplate.clone());
@@ -353,7 +359,7 @@
       }
       if (!(url != null)) {
         $output.remove();
-        resetTwitterA();
+        resetTwitter();
         window.location.replace("#");
         return;
       }
@@ -397,7 +403,7 @@
         },
         complete: function(xhr, textStatus) {
           previousRequest = void 0;
-          return setupTwitterA($output);
+          return resetTwitter($output);
         }
       });
     });
