@@ -311,7 +311,7 @@
       }
       if (textsWithPoints.length) {
         lastName = $output.find('.total .last_name').text();
-        textStart = $a.attr('data-real-text-start').replace('#{last_name}', lastName);
+        textStart = $a.attr('data-real-text-start').replace('{last_name}', lastName);
         textEnd = $a.attr('data-real-text-end');
         extraText = " #" + ($a.attr('data-hashtags').replace(/.*=/, '')) + " via @" + ($a.attr('data-via'));
         textsWithPoints.sort(function(a, b) {
