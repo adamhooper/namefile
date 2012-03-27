@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>OpenFile Name Awesomeness Detector</title>
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,700,800" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="names.css"/>
+  </head>
+  <body>
+    <div id="name-awesomeness-detector" lang="fr">
+      <form action="" method="get">
+        <div>
+          <label>
+*           Enter your last name
+*           <input class="name" type="text" name="name" value="" placeholder="Your last name" />
+          </label>
+*         <input class="submit" type="submit" value="How awesome?" />
+        </div>
+      </form>
+
+      <div class="templates" style="display: none;">
+        <div class="loading">
+*         <h3>Calculating awesomeness...</h3>
+        </div>
+
+        <div class="result quebec-top1000">
+*         <h3>{{last_name}} is the {{rank}} surname in Quebec.</h3>
+*         <p>There are roughly {{approximate_population}} Quebeckers of the {{last_name}} family.</p>
+*         <div class="twitter-text">#{rank} in QC</div>
+        </div>
+
+        <div class="result stanley-cup-winners">
+*         <h3 class="one">{{last_name}} appears on the Stanley Cup.</h3>
+*         <h3 class="many">{{last_name}} appears on the Stanley Cup {{count}} times.</h3>
+          <ul class="block">
+*           <li>{{full_name}}{team}, {year}</li>
+          </ul>
+*         <div class="twitter-text">{count} Stanley Cups</div>
+        </div>
+
+        <div class="result montreal-metro-stations">
+*         <h3>A Montreal metro station contains the name {{last_name}}.</h3>
+*         <div class="p">{{station_name}} station is on the <ul class="inline"><li><strong class="class-line">{line_translated}</strong>{separator}</li></ul> <span class="one">line</span><span class="many">lines</span>.</div>
+*         <div class="twitter-text">a Metro station</div>
+        </div>
+
+        <div class="result orders-of-canada">
+*         <h3 class="one">Someone named {{last_name}} achieved an Order of Canada.</h3>
+*         <h3 class="many">{{count}} people named {{last_name}} achieved Orders of Canada.</h3>
+          <ul class="block">
+*           <li>{{full_name}}{city}</li>
+          </ul>
+*         <div class="twitter-text one">an Order of Canada</div>
+*         <div class="twitter-text many">{count} Orders of Canada</div>
+        </div>
+
+        <div class="result orders-of-quebec">
+*         <h3 class="one">Someone named {{last_name}} achieved an Ordre national du Québec.</h3>
+*         <h3 class="many">{{count}} people named {{last_name}} achieved Ordres nationals du Québec.</h3>
+          <ul class="block">
+*           <li class="class-level">{{full_name}}{level}, {year}<span class="from-region">From {region}</span><a class="href-url">details</a></li>
+          </ul>
+*         <div class="twitter-text one">an Ordre national</div>
+*         <div class="twitter-text many">{count} Ordres nationals</div>
+        </div>
+
+        <div class="result quebec-streets">
+*         <h3>There are {{total_km}} kilometres of Quebec streets named after {{last_name}}.</h3>
+          <ul class="block">
+*           <li>{{street_name}}{km}km in {city}<a class="href-url">show on map</a></li>
+          </ul>
+*         <div class="twitter-text">{total_km}km of QC streets</div>
+        </div>
+
+        <div class="result canadiens">
+*         <h3 class="one">Someone named {{last_name}} has played for the Montreal Canadiens.</h3>
+*         <h3 class="many">{{count}} people named {{last_name}} have played for the Montreal Canadiens.</h3>
+          <ul class="block">
+*           <li>{{full_name}} ({{position}})<span class="origin">From {hometown}</span><span class="origin">Born {birth_year}</span><span class="if-team">Now playing for {team}</span><a class="href-url">show on nhl.com</a></li>
+          </ul>
+*         <div class="twitter-text">{count} Habs</div>
+        </div>
+
+        <div class="total">
+*         <h3>In total, the {{last_name}} family has an awesome rating of {{points}}</h3>
+        </div>
+
+        <div class="not-found">
+*         <h3>We have no idea how awesome this name is. Try a friend's last name, maybe?</h3>
+        </div>
+      </div>
+
+      <div class="share">
+*       <a href="https://twitter.com/share" class="twitter-share-button" data-size="large" data-text="How awesome is your last name?" data-via="OpenFile" data-real-text-start='"#{last_name}": ' data-real-text-end="How awesome is your name?" data-hashtags="NameFile" data-count="horizontal">Tweet #NameFile</a>
+      </div>
+
+      <div class="sources">
+*       <a href="https://github.com/adamh/openfile-last-names">Download source</a>
+*       <span class="other-contributors">Other contributors: ninth+crux, Craig Silverman, Will Vanderbilt</span>
+      </div>
+
+      <script type="text/javascript" src="jquery-1.7.1.min.js"></script>
+      <script type="text/javascript" src="names.js"></script>
+      <script type="text/javascript">
+        var locale = {
+          number: {
+            thousands_separator: ' ',
+            decimal: ','
+          },
+          sentence: {
+            connector: ', ',
+            last_connector: ' et '
+          },
+          metro_stations: {
+            Green: 'Verte',
+            Blue: 'Bleue',
+            Yellow: 'Jaune',
+            Orange: 'Orange'
+          }
+        };
+        var initialName = window.location.hash ? window.location.hash.substring(1) : "";
+        $(function() {
+          $('div#name-awesomeness-detector').makeNameAwesomenessDetector(initialName, locale);
+        });
+      </script>
+      <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="http://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+    </div>
+  </body>
+</html>
