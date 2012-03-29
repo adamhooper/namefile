@@ -20,10 +20,11 @@ $inline_block_width: $page_width / 2;
   }
 
   form {
+    text-align: center;
+
     label {
       font: bold 20px 'Open Sans', sans-serif;
       display: block;
-      text-align: center;
       line-height: 1em;
       white-space: nowrap;
       text-transform: uppercase;
@@ -51,10 +52,8 @@ $inline_block_width: $page_width / 2;
     }
 
     input.submit {
-      display: block;
       font: bold 22px 'Open Sans', sans-serif;
       text-transform: uppercase;
-      width: 35%;
       white-space: nowrap;
       margin: 0 auto;
       background: black;
@@ -109,6 +108,12 @@ $inline_block_width: $page_width / 2;
           display: block;
         }
       }
+
+      li {
+        // for IE7
+        zoom: 1;
+        *display: inline;
+      }
     }
 
     ul.inline {
@@ -152,6 +157,9 @@ $inline_block_width: $page_width / 2;
       clear: none;
       border-image: url(styles/h3-top.png) 19 9 0 0;
       border-image-repeat: repeat;
+      -moz-border-image: url(styles/h3-top.png) 19 9 0 0;
+      -moz-border-image-repeat: repeat;
+      behavior: url(PIE.htc);
       border-width: 19px 9px 0 0;
 
       width: $beside_tally_width - 9px;

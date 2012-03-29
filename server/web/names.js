@@ -1,12 +1,14 @@
 (function() {
-  var TWITTER_TEXT_LENGTH, TWITTER_URL_LENGTH;
+  var BACKEND_URL, TWITTER_TEXT_LENGTH, TWITTER_URL_LENGTH;
+
+  BACKEND_URL = '/namefile/server/backend/';
 
   TWITTER_TEXT_LENGTH = 140;
 
   TWITTER_URL_LENGTH = 20;
 
   $.fn.makeNameAwesomenessDetector = function(initialName, locale) {
-    var $form, $loadingTemplate, $notFoundTemplate, $outer, $share, $templates, $totalTemplate, $twitter, URL, buildUrlFromName, calculatePoints, cloneTemplateDiv, createDivFromTemplateAndData, fillTemplate, formatFloat, formatInteger, formatNumber, formatToDecimalPlaces, formatValue, normalizeName, preprocessData, previousRequest, removeDiacriticsMap, resetTwitter, templateKeys, templates;
+    var $form, $loadingTemplate, $notFoundTemplate, $outer, $pointsTemplate, $share, $templates, $totalTemplate, $twitter, buildUrlFromName, calculatePoints, cloneTemplateDiv, createDivFromTemplateAndData, fillTemplate, formatFloat, formatInteger, formatNumber, formatToDecimalPlaces, formatValue, normalizeName, preprocessData, previousRequest, removeDiacriticsMap, resetTwitter, templateKeys, templates;
     $outer = $(this);
     locale.language = $outer.attr('lang') || 'en';
     $form = $outer.find('form');
@@ -141,14 +143,13 @@
       name = name.replace(/[^-'a-z ]/g, '');
       name = name.replace(/\b(a|de|des|la|du|l'|d')\b/g, '');
       name = name.replace(/\s\s+/g, ' ');
-      return name = name.trim();
+      return name = $.trim(name);
     };
-    URL = 'http://localhost:8080/names/montreal';
     buildUrlFromName = function(name) {
       var normalizedName;
       normalizedName = normalizeName(name);
       if (!name) return;
-      return "" + URL + "/" + normalizedName + ".json";
+      return "" + BACKEND_URL + "/" + normalizedName + ".json";
     };
     fillTemplate = function($elem, vars, options) {
       var $applicableElems, attr, htmlClass, ifClass, k, v, _results;
@@ -187,8 +188,8 @@
       $outer = $('<div></div>');
       $outer.append($(templateDiv).clone());
       html = $outer.html();
-      html = html.replace(/\{\{([a-z_]+)\}\}/g, '<strong class="$1"></strong>');
-      html = html.replace(/\{([a-z_]+)\}/g, '<span class="$1"></span>');
+      html = html.replace(/\{\{([a-z_]+)\}\}/g, '<strong class="$1">&nbsp;</strong>');
+      html = html.replace(/\{([a-z_]+)\}/g, '<span class="$1">&nbsp;</span>');
       return $(html);
     };
     createDivFromTemplateAndData = function(templateDiv, meta, entry, points) {
@@ -221,7 +222,7 @@
       } else {
         fillTemplate($ret, entry);
       }
-      $points = $('<div class="points"><span></span> awesome points</div>');
+      $points = $pointsTemplate.clone();
       $points.find('span').text("" + (formatInteger(points)));
       $ret.prepend($points);
       return $ret[0];
@@ -287,6 +288,7 @@
       var $a, $newDiv, extraText, fullText, lastName, text, textEnd, textStart, textWithPoints, textsWithPoints, url, url_minus_hash, _i, _len;
       if ($output == null) $output = void 0;
       $share.find('.twitter').remove();
+      if (!($output != null)) return;
       $newDiv = $twitter.clone();
       $newDiv.find('a').addClass('twitter-share-button');
       $a = $newDiv.children();
@@ -329,11 +331,14 @@
         $a.attr('data-text', fullText);
       }
       $share.append($newDiv);
-      if (window.twttr != null) return twttr.widgets.load();
+      if ((window.twttr != null) && (window.twttr.widgets != null)) {
+        return twttr.widgets.load();
+      }
     };
     $templates = $('div.templates');
     $loadingTemplate = $templates.children('div.loading');
     $notFoundTemplate = $templates.children('div.not-found');
+    $pointsTemplate = $templates.children('div.points');
     $totalTemplate = cloneTemplateDiv($templates.children('div.total'));
     $templates.children('div.result').each(function() {
       var templateName;

@@ -1,3 +1,4 @@
+BACKEND_URL = '/namefile/server/backend/'
 TWITTER_TEXT_LENGTH = 140
 TWITTER_URL_LENGTH = 20
 
@@ -131,14 +132,12 @@ $.fn.makeNameAwesomenessDetector = (initialName, locale) ->
     name = name.replace(/[^-'a-z ]/g, '')
     name = name.replace(/\b(a|de|des|la|du|l'|d')\b/g, '')
     name = name.replace(/\s\s+/g, ' ')
-    name = name.trim()
-
-  URL = 'http://localhost:8080/names/montreal'
+    name = $.trim(name)
 
   buildUrlFromName = (name) ->
     normalizedName = normalizeName(name)
     return undefined unless name
-    "#{URL}/#{normalizedName}.json"
+    "#{BACKEND_URL}/#{normalizedName}.json"
 
   fillTemplate = ($elem, vars, options={}) ->
     for k, v of vars
@@ -162,8 +161,11 @@ $.fn.makeNameAwesomenessDetector = (initialName, locale) ->
     $outer = $('<div></div>')
     $outer.append($(templateDiv).clone())
     html = $outer.html()
-    html = html.replace(/\{\{([a-z_]+)\}\}/g, '<strong class="$1"></strong>')
-    html = html.replace(/\{([a-z_]+)\}/g, '<span class="$1"></span>')
+    # Now set up {{variable}} and {variable} to <strong> and <span>.
+    # We can't leave them empty before calling jQuery.html(), because IE7 will
+    # remove an extra space after them. So use &nbsp;.
+    html = html.replace(/\{\{([a-z_]+)\}\}/g, '<strong class="$1">&nbsp;</strong>')
+    html = html.replace(/\{([a-z_]+)\}/g, '<span class="$1">&nbsp;</span>')
     $(html)
 
   createDivFromTemplateAndData = (templateDiv, meta, entry, points) ->
@@ -195,7 +197,7 @@ $.fn.makeNameAwesomenessDetector = (initialName, locale) ->
     else
       fillTemplate($ret, entry)
 
-    $points = $('<div class="points"><span></span> awesome points</div>')
+    $points = $pointsTemplate.clone()
     $points.find('span').text("#{formatInteger(points)}")
     $ret.prepend($points)
 
@@ -237,6 +239,9 @@ $.fn.makeNameAwesomenessDetector = (initialName, locale) ->
 
   resetTwitter = ($output = undefined) ->
     $share.find('.twitter').remove()
+
+    return if !$output?
+
     $newDiv = $twitter.clone()
     $newDiv.find('a').addClass('twitter-share-button')
     $a = $newDiv.children()
@@ -279,12 +284,13 @@ $.fn.makeNameAwesomenessDetector = (initialName, locale) ->
       $a.attr('data-text', fullText)
 
     $share.append($newDiv)
-    twttr.widgets.load() if window.twttr?
+    twttr.widgets.load() if window.twttr? && window.twttr.widgets?
 
   $templates = $('div.templates')
 
   $loadingTemplate = $templates.children('div.loading')
   $notFoundTemplate = $templates.children('div.not-found')
+  $pointsTemplate = $templates.children('div.points')
   $totalTemplate = cloneTemplateDiv($templates.children('div.total'))
 
   $templates.children('div.result').each () ->
@@ -318,35 +324,36 @@ $.fn.makeNameAwesomenessDetector = (initialName, locale) ->
       window.location.replace("#")
       return
 
-    previousRequest = $.ajax({ url: url, dataType: 'json', data: {}, success: (data) ->
-      $output.empty()
-      preprocessData(data)
-      points = 0
-
-      for templateName in templateKeys
-        if data[templateName]?
-          templateData = data[templateName]
-          templatePoints = calculatePoints(templateName, data.extra[templateName], data[templateName])
-          templateDiv = templates[templateName]
-          meta = $.extend({ last_name: data.last_name }, data.extra[templateName] || {})
-          dataDiv = createDivFromTemplateAndData(templateDiv, meta, templateData, templatePoints)
-          $output.append(dataDiv)
-
-          points += templatePoints
-
-      window.location.replace("##{normalizeName(data.last_name)}")
-
-      $total = $totalTemplate.clone()
-      fillTemplate($total, { last_name: data.last_name, points: points })
-      $output.append($total)
-    , error: (xhr, textStatus, errorThrown) ->
-      if xhr.status == 404
+    previousRequest = $.ajax({ url: url, dataType: 'json', data: {}
+      , success: (data) ->
         $output.empty()
-        $output.append($notFoundTemplate.clone())
-        window.location.replace("#")
-    , complete: (xhr, textStatus) ->
-      previousRequest = undefined
-      resetTwitter($output)
+        preprocessData(data)
+        points = 0
+
+        for templateName in templateKeys
+          if data[templateName]?
+            templateData = data[templateName]
+            templatePoints = calculatePoints(templateName, data.extra[templateName], data[templateName])
+            templateDiv = templates[templateName]
+            meta = $.extend({ last_name: data.last_name }, data.extra[templateName] || {})
+            dataDiv = createDivFromTemplateAndData(templateDiv, meta, templateData, templatePoints)
+            $output.append(dataDiv)
+
+            points += templatePoints
+
+        window.location.replace("##{normalizeName(data.last_name)}")
+
+        $total = $totalTemplate.clone()
+        fillTemplate($total, { last_name: data.last_name, points: points })
+        $output.append($total)
+      , error: (xhr, textStatus, errorThrown) ->
+        if xhr.status == 404
+          $output.empty()
+          $output.append($notFoundTemplate.clone())
+          window.location.replace("#")
+      , complete: (xhr, textStatus) ->
+        previousRequest = undefined
+        resetTwitter($output)
     })
 
   if initialName
