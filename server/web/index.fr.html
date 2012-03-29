@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
   <head>
     <title>OpenFile Name Awesomeness Detector</title>
@@ -10,92 +10,96 @@
       <form action="" method="get">
         <div>
           <label>
-*           Enter your last name
-*           <input class="name" type="text" name="name" value="" placeholder="*Your last name" />
+            Tapez votre nom de famille
+            <input class="name" type="text" name="name" value="" placeholder="Votre nom de famille" />
           </label>
-*         <input class="submit" type="submit" value="*How awesome?" />
+          <input class="submit" type="submit" value="Quelle popularité&nbsp;?" />
         </div>
       </form>
 
       <div class="templates" style="display: none;">
         <div class="loading">
-*         <h3>Calculating awesomeness...</h3>
+          <h3>Calcul en cours…</h3>
         </div>
 
         <div class="result quebec-top1000">
-*         <h3>{{last_name}} is the {{rank}} surname in Quebec.</h3>
-*         <p>There are roughly {{approximate_population}} Quebeckers of the {{last_name}} family.</p>
-*         <div class="twitter-text">#{rank} in QC</div>
+          <h3>{{last_name}} est classé au {{rank}}e. rang au Québec.</h3>
+          <p>Il y a approximativement {{approximate_population}} Québécois qui portent votre nom de famille {{last_name}}.</p>
+          <div class="twitter-text">#{rank}e au Qc</div>
         </div>
 
         <div class="result stanley-cup-winners">
-*         <h3 class="one">{{last_name}} appears on the Stanley Cup.</h3>
-*         <h3 class="many">{{last_name}} appears on the Stanley Cup {{count}} times.</h3>
+          <h3 class="one">{{last_name}} apparaît sur la coupe Stanley.</h3>
+          <h3 class="many">{{last_name}} apparaît sur la coupe Stanley {{count}} fois.</h3>
           <ul class="block">
-*           <li>{{full_name}}{team}, {year}</li>
+            <li>{{full_name}}{team}, {year}</li>
           </ul>
-*         <div class="twitter-text">{count} Stanley Cups</div>
+          <div class="twitter-text one">la Coupe Stanley</div>
+          <div class="twitter-text many">{count}× la Coupe Stanley</div>
         </div>
 
         <div class="result montreal-metro-stations">
-*         <h3>A Montreal metro station contains the name {{last_name}}.</h3>
-*         <div class="p">{{station_name}} station is on the <ul class="inline"><li><strong class="class-line">{line_translated}</strong>{separator}</li></ul> <span class="one">line</span><span class="many">lines</span>.</div>
-*         <div class="twitter-text">a Metro station</div>
+          <h3>Une station du métro de Montréal porte le nom {{last_name}}.</h3>
+          <div class="p">La station {{station_name}} est sur <span class="one">la ligne</span><span class="many">les lignes</span> <ul class="inline"><li><strong class="class-line">{line_translated}</strong>{separator}</li></ul>.</div>
+          <div class="twitter-text">Une station de métro</div>
         </div>
 
         <div class="result orders-of-canada">
-*         <h3 class="one">Someone named {{last_name}} achieved an Order of Canada.</h3>
-*         <h3 class="many">{{count}} people named {{last_name}} achieved Orders of Canada.</h3>
+          <h3 class="one">Une personne portant le nom {{last_name}} a reçu l'Ordre du Canada.</h3>
+          <h3 class="many">{{count}} personnes portant le nom {{last_name}} ont reçu l'Ordre du Canada.</h3>
           <ul class="block">
-*           <li>{{full_name}}{city}</li>
+            <li>{{full_name}}{city}</li>
           </ul>
-*         <div class="twitter-text one">an Order of Canada</div>
-*         <div class="twitter-text many">{count} Orders of Canada</div>
+          <div class="twitter-text one">Ordre du Canada</div>
+          <div class="twitter-text many">{count}× Ordre du Canada</div>
         </div>
 
         <div class="result orders-of-quebec">
-*         <h3 class="one">Someone named {{last_name}} achieved an Ordre national du Québec.</h3>
-*         <h3 class="many">{{count}} people named {{last_name}} achieved Ordres nationals du Québec.</h3>
+          <h3 class="one">Une personne qui porte le nom de famille {{last_name}} a reçu l'Ordre national du Québec.</h3>
+          <h3 class="many">{{count}} personnes qui portent le nom {{last_name}} ont reçu l'Ordre national du Québec.</h3>
           <ul class="block">
-*           <li class="class-level">{{full_name}}{level}, {year}<span class="from-region">From {region}</span><a class="href-url">details</a></li>
+            <li class="class-level">{{full_name}}{level}, {year}<span class="from-region">Originaire de&nbsp;: {region}</span><a class="href-url">details</a></li>
           </ul>
-*         <div class="twitter-text one">an Ordre national</div>
-*         <div class="twitter-text many">{count} Ordres nationals</div>
+          <div class="twitter-text one">Ordre national</div>
+          <div class="twitter-text many">{count}× Ordre national</div>
         </div>
 
         <div class="result quebec-streets">
-*         <h3>There are {{total_km}} kilometres of Quebec streets named after {{last_name}}.</h3>
+          <h3>Il y a {{total_km}} kilomètres de rue du Québec portant le nom {{last_name}}.</h3>
           <ul class="block">
-*           <li>{{street_name}}{km}km in {city}<a class="href-url">show on map</a></li>
+            <li>{{street_name}}{km}km à {city}<a class="href-url">voyez un plan</a></li>
           </ul>
-*         <div class="twitter-text">{total_km}km of QC streets</div>
+          <div class="twitter-text">{total_km}km de rues au Qc</div>
         </div>
 
         <div class="result canadiens">
-*         <h3 class="one">Someone named {{last_name}} has played for the Montreal Canadiens.</h3>
-*         <h3 class="many">{{count}} people named {{last_name}} have played for the Montreal Canadiens.</h3>
+          <h3 class="one">Une personne qui porte le nom {{last_name}} a joué pour le Canadien de Montréal.</h3>
+          <h3 class="many">{{count}} personnes qui s'appellent {{last_name}} ont joué pour le Canadien de Montréal.</h3>
           <ul class="block">
-*           <li>{{full_name}} ({{position}})<span class="origin">From {hometown}</span><span class="origin">Born {birth_year}</span><span class="if-team">Now playing for {team}</span><a class="href-url">show on nhl.com</a></li>
+            <li>{{full_name}} ({{position}})<span class="origin">De&nbsp;: {hometown}</span><span class="origin">Né en {birth_year}</span><span class="if-team">joue actuellement avec {team}</span><a class="href-url">vu sur nhl.com</a></li>
           </ul>
-*         <div class="twitter-text">{count} Habs</div>
+          <div class="twitter-text one">un Hab</div>
+          <div class="twitter-text many">{count} Habs</div>
         </div>
 
         <div class="total">
-*         <h3>In total, the {{last_name}} family has an awesome rating of {{points}}</h3>
+          <h3>Au total, le nom de famille {{last_name}} obtient un nombre de points total de {{points}}</h3>
         </div>
 
         <div class="not-found">
-*         <h3>We have no idea how awesome this name is. Try a friend's last name, maybe?</h3>
+          <h3>Nous ne trouvons aucune donnée sur ce nom de famille. Essayez avec le nom d'un ami.</h3>
         </div>
       </div>
 
       <div class="share">
-*       <a href="https://twitter.com/share" class="twitter-share-button" data-size="large" data-text="*How awesome is your last name?" data-via="OpenFile" data-real-text-start='*"{last_name}": ' data-real-text-end="*How awesome is your name?" data-hashtags="NameFile" data-count="horizontal">*Tweet #NameFile</a>
+        <div class="twitter">
+          <a href="https://twitter.com/share" data-size="large" data-text="Votre nom de famille est-il impressionnant&nbsp;?" data-via="OpenFile" data-real-text-start='"{last_name}"&nbsp; ' data-real-text-end="Votre nom de famille est-il impressionnant&nbsp;?" data-hashtags="NameFile" data-count="horizontal">Twittez #NameFile</a>
+        </div>
       </div>
 
       <div class="sources">
-*       <a href="https://github.com/adamh/openfile-last-names">Download source</a>
-*       <span class="other-contributors">Other contributors: ninth+crux, Craig Silverman, Will Vanderbilt</span>
+        <a href="https://github.com/adamh/openfile-last-names">Voyez la source</a>
+        <span class="other-contributors">Merci à: ninth+crux, Craig Silverman, Will Vanderbilt, Marc Pacanowski</span>
       </div>
 
       <script type="text/javascript" src="jquery-1.7.1.min.js"></script>
