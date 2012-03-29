@@ -19,7 +19,7 @@
 
       <div class="templates" style="display: none;">
         <div class="loading">
-          <h3>Calculating awesomeness...</h3>
+          <h3>Calculating awesomeness…</h3>
         </div>
 
         <div class="result quebec-top1000">
@@ -34,7 +34,8 @@
           <ul class="block">
             <li>{{full_name}}{team}, {year}</li>
           </ul>
-          <div class="twitter-text">{count} Stanley Cups</div>
+          <div class="twitter-text one">the Stanley Cup</div>
+          <div class="twitter-text many">{count}× the Stanley Cup</div>
         </div>
 
         <div class="result montreal-metro-stations">
@@ -44,23 +45,23 @@
         </div>
 
         <div class="result orders-of-canada">
-          <h3 class="one">Someone named {{last_name}} achieved an Order of Canada.</h3>
-          <h3 class="many">{{count}} people named {{last_name}} achieved Orders of Canada.</h3>
+          <h3 class="one">Someone named {{last_name}} achieved the Order of Canada.</h3>
+          <h3 class="many">{{count}} people named {{last_name}} achieved the Order of Canada.</h3>
           <ul class="block">
             <li>{{full_name}}{city}</li>
           </ul>
-          <div class="twitter-text one">an Order of Canada</div>
-          <div class="twitter-text many">{count} Orders of Canada</div>
+          <div class="twitter-text one">Order of Canada</div>
+          <div class="twitter-text many">{count}× Order of Canada</div>
         </div>
 
         <div class="result orders-of-quebec">
-          <h3 class="one">Someone named {{last_name}} achieved an Ordre national du Québec.</h3>
-          <h3 class="many">{{count}} people named {{last_name}} achieved Ordres nationals du Québec.</h3>
+          <h3 class="one">Someone named {{last_name}} achieved the Ordre national du Québec.</h3>
+          <h3 class="many">{{count}} people named {{last_name}} achieved the Ordre national du Québec.</h3>
           <ul class="block">
             <li class="class-level">{{full_name}}{level}, {year}<span class="from-region">From {region}</span><a class="href-url">details</a></li>
           </ul>
-          <div class="twitter-text one">an Ordre national</div>
-          <div class="twitter-text many">{count} Ordres nationals</div>
+          <div class="twitter-text one">Ordre national</div>
+          <div class="twitter-text many">{count}× Ordre national</div>
         </div>
 
         <div class="result quebec-streets">
@@ -77,7 +78,8 @@
           <ul class="block">
             <li>{{full_name}} ({{position}})<span class="origin">From {hometown}</span><span class="origin">Born {birth_year}</span><span class="if-team now_playing_for">Now playing for {team}</span><a class="href-url">show on nhl.com</a></li>
           </ul>
-          <div class="twitter-text">{count} Habs</div>
+          <div class="twitter-text one">a Hab</div>
+          <div class="twitter-text many">{count} Habs</div>
         </div>
 
         <div class="total">
