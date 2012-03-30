@@ -1,25 +1,55 @@
 = NameFile
 
-All data is in db/*.csv.
+This is a fun web app that shows you how awesome your name is. It's coded in
+Quebec and designed for "Quebecois" names--that is, families that have been in
+Quebec for a while. (This makes the app less fun for many people. Unfortunately,
+Citizenship and Immigration Canada doesn't publish names because of privacy.)
 
-Some of it was scraped from web pages, via Ruby scripts in script/scrape/.
+All data is in db/*.csv. None of this is original data, so please do not cite
+us or redistribute without permission from the original sources. Our
+methodology is public-domain; you may recreate this dataset from original
+sources by following the instructions in db/SOURCES.
 
-All of it can be smushed into an SQLite3 database for serving via script/build_json_db.py. Then server/backend/wsgi_server.py can serve up JSON on demand.
+== Sources
 
-Users will browse to server/web/index.html and enjoy.
+* Stanley Cup winners and Montreal Canadiens players: http://nhl.com
+* Ordre national du Québec: http://www.ordre-national.gouv.qc.ca/recherche.asp
+* Order of Canada: the Governor General of Canada: http://www.gg.ca/honours.aspx
+* Montreal metro stations: public knowledge
+* Quebec Top 1000: Institut de la statistique Québec: http://www.stat.gouv.qc.ca/donstat/societe/demographie/noms_famille/noms_famille_1000.htm
+* Quebec streets: Statistics Canada: http://www12.statcan.gc.ca/census-recensement/2011/geo/index-eng.cfm
 
-== How to run it
+For more on methodology, refer to db/SOURCES.
+
+== Technical details
+
+1. We create a bunch of CSV files, mostly through Ruby scripts in script/scrape/.
+2. We run script/build_json_db.py. It loads all CSVs into memory, iterates over every name, spits out the name's awesomeness data in JSON format, and saves it to simple SQLite3 database.
+3. A simple back-end script, either server/backend/wsgi_server.py or server/backend/server.php, takes name as input and provides JSON as output. It's only a database lookup.
+4. Users view server/web/index.en.html (and .fr.html), which requests the JSON from the back-end script.
+
+=== How to run it
 
 You will need Python 3 and a shell to run your own server.
 
-Run `script/build_json_db.py server/backend/names.sqlite3` to compile the CSV files into something server-ready.
+1. Run `script/build_json_db.py server/backend/names.sqlite3` to compile the CSV files into something server-ready.
+2. Run `cd server/backend; uwsgi --http :8080 -m wsgi_server.py` to run that server on `http://localhost:8080`.
+3. Test the backend server by checking a URL: `http://localhost:8080/names/montreal/hooper.json`. You should see some JSON, because "hooper" is in the database.
+4. While that's waiting, run `cd server/web; python3 -m http.server 11111` to run a simple web server in the server/web/ folder.
+5. Make sure `server/web/names.js` (and, for that matter, `server/src/names.coffee`) has a `BACKEND_URL` of `http://localhost:8080/names/montreal`.
+5. Browse to `http://localhost:11111/index.en.html`.
 
-Run `cd server/backend; uwsgi --http :8080 -m wsgi_server.py` to run that server on `http://localhost:8080`.
+=== How to change things
 
-Test the server by checking a URL: `http://localhost:8080/names/montreal/hooper.json`. You should see some JSON, because "hooper" is in the database.
-
-== How to change things
-
-* Edit `server/web/index.html` to change the HTML.
+* Edit `server/web/index.en.html` to change the HTML.
 * Edit `server/src/names.coffee` to edit the CoffeeScript source. Download CoffeeScript at http://coffeescript.org, and use it like this: `coffee -w -c -o server/web server/src/names.coffee`. Keep the program running, and it'll update the JavaScript as you write CoffeeScript.
 * Edit `server/src/names.scss` to edit the SCSS stylesheet. Download Sass at http://sass-lang.com, and use it like this: `scss --watch server/src/names.scss:server/web/names.css`. Keep the program running, and it'll update the CSS as you write SCSS.
+
+=== How to report bugs
+
+Please use the GitHub Issues pane.
+
+== License
+
+* All non-minified source code is public-domain. (The minified JavaScript files have their licenses inline.)
+* All data technically isn't public-domain, but you can reproduce it using the public-domain code.
