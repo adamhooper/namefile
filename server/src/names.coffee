@@ -240,8 +240,6 @@ $.fn.makeNameAwesomenessDetector = (initialName, locale) ->
   resetTwitter = ($output = undefined) ->
     $share.find('.twitter').remove()
 
-    return if !$output?
-
     $newDiv = $twitter.clone()
     $newDiv.find('a').addClass('twitter-share-button')
     $a = $newDiv.children()
@@ -305,7 +303,7 @@ $.fn.makeNameAwesomenessDetector = (initialName, locale) ->
     e.stopPropagation()
 
     resetTwitter()
-    $outer.children('.output').remove()
+    $form.siblings('.output').remove()
 
     $output = $('<div class="output"></div>')
     $output.append($loadingTemplate.clone())
@@ -355,6 +353,8 @@ $.fn.makeNameAwesomenessDetector = (initialName, locale) ->
         previousRequest = undefined
         resetTwitter($output)
     })
+
+  resetTwitter()
 
   if initialName
     $form.find('input[name=name]').val(initialName)

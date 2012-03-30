@@ -288,7 +288,6 @@
       var $a, $newDiv, extraText, fullText, lastName, text, textEnd, textStart, textWithPoints, textsWithPoints, url, url_minus_hash, _i, _len;
       if ($output == null) $output = void 0;
       $share.find('.twitter').remove();
-      if (!($output != null)) return;
       $newDiv = $twitter.clone();
       $newDiv.find('a').addClass('twitter-share-button');
       $a = $newDiv.children();
@@ -352,7 +351,7 @@
       e.preventDefault();
       e.stopPropagation();
       resetTwitter();
-      $outer.children('.output').remove();
+      $form.siblings('.output').remove();
       $output = $('<div class="output"></div>');
       $output.append($loadingTemplate.clone());
       $form.after($output);
@@ -412,6 +411,7 @@
         }
       });
     });
+    resetTwitter();
     if (initialName) {
       $form.find('input[name=name]').val(initialName);
       return $form.submit();
